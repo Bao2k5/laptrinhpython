@@ -1,6 +1,6 @@
 """
 Database Manager cho Flappy Bird AI Game
-Lưu trữ: High scores, AI statistics, Game history
+Luu tru: High scores, AI statistics, Game history
 """
 from pymongo import MongoClient
 from datetime import datetime
@@ -9,7 +9,7 @@ import os
 class FlappyBirdDB:
     def __init__(self, connection_string="mongodb://localhost:27017/"):
         """
-        Khởi tạo kết nối MongoDB
+        Khoi tao ket noi MongoDB
 
         Args:
             connection_string: MongoDB URI
@@ -25,21 +25,21 @@ class FlappyBirdDB:
             self.ai_stats = self.db['ai_statistics']
             self.game_history = self.db['game_history']
 
-            # Tạo indexes để tìm kiếm nhanh
-            self.high_scores.create_index([("score", -1)])  # Sắp xếp theo điểm giảm dần
+            # Tao indexes de tim kiem nhanh
+            self.high_scores.create_index([("score", -1)])  # Sap xep theo diem giam dan
             self.ai_stats.create_index([("generation", 1)])
             self.game_history.create_index([("timestamp", -1)])
 
-            print("✅ Kết nối MongoDB thành công!")
-            print(f"📊 Database: {self.db.name}")
-            print(f"📁 Collections: high_scores, ai_statistics, game_history")
+            print("Ket noi MongoDB thanh cong!")
+            print(f"Database: {self.db.name}")
+            print(f"Collections: high_scores, ai_statistics, game_history")
 
         except Exception as e:
-            print(f"❌ Lỗi kết nối MongoDB: {e}")
-            print("\n💡 Hướng dẫn:")
-            print("   1. Cài MongoDB: https://www.mongodb.com/try/download/community")
-            print("   2. Hoặc dùng MongoDB Atlas (free): https://www.mongodb.com/cloud/atlas")
-            print("   3. Hoặc chạy MongoDB trong Docker:")
+            print(f"Loi ket noi MongoDB: {e}")
+            print("\nHuong dan:")
+            print("   1. Cai MongoDB: https://www.mongodb.com/try/download/community")
+            print("   2. Hoac dung MongoDB Atlas (free): https://www.mongodb.com/cloud/atlas")
+            print("   3. Hoac chay MongoDB trong Docker:")
             print("      docker run -d -p 27017:27017 mongo")
             self.client = None
 
@@ -47,13 +47,13 @@ class FlappyBirdDB:
 
     def save_high_score(self, player_name, score, level_reached, generation=None):
         """
-        Lưu điểm cao
+        Luu diem cao
 
         Args:
-            player_name: Tên người chơi hoặc "AI"
-            score: Điểm số đạt được
-            level_reached: Level cao nhất đạt được (1-4)
-            generation: Thế hệ AI (nếu là AI chơi)
+            player_name: Ten nguoi choi hoac "AI"
+            score: Diem so dat duoc
+            level_reached: Level cao nhat dat duoc (1-4)
+            generation: The he AI (neu la AI choi)
         """
         if not self.client:
             return None
@@ -68,11 +68,11 @@ class FlappyBirdDB:
         }
 
         result = self.high_scores.insert_one(record)
-        print(f"✅ Đã lưu high score: {player_name} - {score} điểm")
+        print(f"Da luu high score: {player_name} - {score} diem")
         return result.inserted_id
 
     def get_top_scores(self, limit=10):
-        """Lấy top điểm cao nhất"""
+        """Lay top diem cao nhat"""
         if not self.client:
             return []
 
@@ -80,7 +80,7 @@ class FlappyBirdDB:
         return list(scores)
 
     def get_player_best_score(self, player_name):
-        """Lấy điểm cao nhất của một người chơi"""
+        """Lay diem cao nhat cua mot nguoi choi"""
         if not self.client:
             return None
 
@@ -94,14 +94,14 @@ class FlappyBirdDB:
 
     def save_ai_generation(self, generation, best_score, avg_fitness, num_birds, level_reached):
         """
-        Lưu thống kê mỗi thế hệ AI
+        Luu thong ke moi the he AI
 
         Args:
-            generation: Số thế hệ
-            best_score: Điểm cao nhất của thế hệ
-            avg_fitness: Fitness trung bình
-            num_birds: Số con chim trong thế hệ
-            level_reached: Level cao nhất đạt được
+            generation: So the he
+            best_score: Diem cao nhat cua the he
+            avg_fitness: Fitness trung binh
+            num_birds: So con chim trong the he
+            level_reached: Level cao nhat dat duoc
         """
         if not self.client:
             return None
@@ -119,7 +119,7 @@ class FlappyBirdDB:
         return result.inserted_id
 
     def get_ai_progress(self):
-        """Lấy tiến độ học của AI qua các thế hệ"""
+        """Lay tien do hoc cua AI qua cac the he"""
         if not self.client:
             return []
 
@@ -127,7 +127,7 @@ class FlappyBirdDB:
         return list(stats)
 
     def get_best_generation(self):
-        """Lấy thế hệ AI tốt nhất"""
+        """Lay the he AI tot nhat"""
         if not self.client:
             return None
 
@@ -138,26 +138,26 @@ class FlappyBirdDB:
 
     def save_game_session(self, session_data):
         """
-        Lưu một phiên chơi game
+        Luu mot phien choi game
 
         Args:
-            session_data: Dict chứa thông tin phiên chơi
-                - start_time: Thời gian bắt đầu
-                - end_time: Thời gian kết thúc
-                - total_generations: Tổng số thế hệ
-                - highest_score: Điểm cao nhất
-                - total_birds: Tổng số chim đã chơi
+            session_data: Dict chua thong tin phien choi
+                - start_time: Thoi gian bat dau
+                - end_time: Thoi gian ket thuc
+                - total_generations: Tong so the he
+                - highest_score: Diem cao nhat
+                - total_birds: Tong so chim da choi
         """
         if not self.client:
             return None
 
         session_data['timestamp'] = datetime.now()
         result = self.game_history.insert_one(session_data)
-        print(f"✅ Đã lưu game session")
+        print(f"Da luu game session")
         return result.inserted_id
 
     def get_recent_sessions(self, limit=10):
-        """Lấy các phiên chơi gần đây"""
+        """Lay cac phien choi gan day"""
         if not self.client:
             return []
 
@@ -167,7 +167,7 @@ class FlappyBirdDB:
     # ==================== STATISTICS ====================
 
     def get_total_stats(self):
-        """Lấy thống kê tổng quan"""
+        """Lay thong ke tong quan"""
         if not self.client:
             return None
 
@@ -179,7 +179,7 @@ class FlappyBirdDB:
             "best_ai_generation": None
         }
 
-        # Điểm cao nhất mọi thời đại
+        # Diem cao nhat moi thoi dai
         top_score = self.high_scores.find_one(sort=[("score", -1)])
         if top_score:
             stats["highest_score_ever"] = {
@@ -188,7 +188,7 @@ class FlappyBirdDB:
                 "date": top_score.get("date")
             }
 
-        # Thế hệ AI tốt nhất
+        # The he AI tot nhat
         best_gen = self.get_best_generation()
         if best_gen:
             stats["best_ai_generation"] = {
@@ -199,58 +199,58 @@ class FlappyBirdDB:
         return stats
 
     def clear_all_data(self):
-        """Xóa toàn bộ dữ liệu (cẩn thận!)"""
+        """Xoa toan bo du lieu (can than!)"""
         if not self.client:
             return
 
         self.high_scores.delete_many({})
         self.ai_stats.delete_many({})
         self.game_history.delete_many({})
-        print("⚠️  Đã xóa toàn bộ dữ liệu!")
+        print("Da xoa toan bo du lieu!")
 
     def close(self):
-        """Đóng kết nối"""
+        """Dong ket noi"""
         if self.client:
             self.client.close()
-            print("👋 Đã đóng kết nối MongoDB")
+            print("Da dong ket noi MongoDB")
 
 
 # ==================== DEMO USAGE ====================
 
 if __name__ == "__main__":
-    print("🎮 DEMO: Flappy Bird Database Manager")
+    print("DEMO: Flappy Bird Database Manager")
     print("=" * 60)
 
-    # Khởi tạo database
+    # Khoi tao database
     db = FlappyBirdDB()
 
     if db.client:
-        print("\n1️⃣ Lưu điểm cao:")
+        print("\n1. Luu diem cao:")
         db.save_high_score("Player1", 45, 2)
         db.save_high_score("AI", 127, 3, generation=15)
         db.save_high_score("Player2", 78, 2)
 
-        print("\n2️⃣ Lấy top 5 điểm cao:")
+        print("\n2. Lay top 5 diem cao:")
         top_scores = db.get_top_scores(5)
         for i, score in enumerate(top_scores, 1):
-            print(f"   {i}. {score['player_name']}: {score['score']} điểm (Level {score['level_reached']})")
+            print(f"   {i}. {score['player_name']}: {score['score']} diem (Level {score['level_reached']})")
 
-        print("\n3️⃣ Lưu thống kê AI:")
+        print("\n3. Luu thong ke AI:")
         db.save_ai_generation(1, 25, 12.5, 15, 1)
         db.save_ai_generation(2, 58, 28.3, 15, 2)
         db.save_ai_generation(3, 127, 65.8, 15, 3)
 
-        print("\n4️⃣ Lấy thế hệ AI tốt nhất:")
+        print("\n4. Lay the he AI tot nhat:")
         best_gen = db.get_best_generation()
         if best_gen:
-            print(f"   Gen {best_gen['generation']}: {best_gen['best_score']} điểm")
+            print(f"   Gen {best_gen['generation']}: {best_gen['best_score']} diem")
 
-        print("\n5️⃣ Thống kê tổng quan:")
+        print("\n5. Thong ke tong quan:")
         stats = db.get_total_stats()
-        print(f"   📊 Tổng số game: {stats['total_games']}")
-        print(f"   🏆 Điểm cao nhất: {stats.get('highest_score_ever', {}).get('score', 0)}")
+        print(f"   Tong so game: {stats['total_games']}")
+        print(f"   Diem cao nhat: {stats.get('highest_score_ever', {}).get('score', 0)}")
 
-        print("\n6️⃣ Lưu game session:")
+        print("\n6. Luu game session:")
         session = {
             "start_time": datetime.now(),
             "end_time": datetime.now(),
@@ -260,9 +260,8 @@ if __name__ == "__main__":
         }
         db.save_game_session(session)
 
-        # Đóng kết nối
+        # Dong ket noi
         db.close()
 
     print("\n" + "=" * 60)
-    print("✅ DEMO hoàn tất!")
-
+    print("DEMO hoan tat!")
