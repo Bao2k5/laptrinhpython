@@ -3,7 +3,7 @@
         "master_volume": 0.8,
         "music_volume": 0.5,
         "sfx_volume": 0.8,
-        "music_enabled": false,
+        "music_enabled": true,
         "sfx_enabled": true
     },
     "graphics": {
@@ -16,7 +16,7 @@
     "gameplay": {
         "difficulty": "Hard",
         "show_hitboxes": false,
-        "particles_enabled": false,
+        "particles_enabled": true,
         "screen_shake": true
     },
     "controls": {
