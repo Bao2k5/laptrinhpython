@@ -1,5 +1,70 @@
 # NEAT Flappy Bird
 
+---
+
+## 🎮 **Flappy Bird Breath Edition – Voice/Breath Controlled Game**
+
+### 💡 **Mục tiêu dự án**
+
+Tạo một phiên bản **Flappy Bird có thể điều khiển bằng hơi thở hoặc giọng nói**, thay vì bàn phím hoặc chuột.
+
+- 🎤 **Người chơi phải giữ hơi / nói nhẹ** để chim giữ độ cao
+- 🔊 **Nói to hoặc thổi mạnh** để chim bay cao hơn  
+- 🤐 **Im lặng** thì chim rơi xuống
+
+### ⚙️ **Công nghệ sử dụng**
+
+- **Python + Pygame**: Hiển thị game, xử lý chuyển động chim, va chạm, điểm số
+- **Sounddevice + NumPy**: Thu âm từ micro, đo cường độ âm thanh / hơi thở
+- **(Tuỳ chọn mở rộng)** SpeechRecognition hoặc PyAudio nếu muốn phân biệt tiếng "bay", "rớt"
+- **(Có thể bổ sung sau)** AI nhỏ dùng ML nhận dạng mẫu hơi thở hoặc tiếng nói
+
+### 🧩 **Cấu trúc logic - Input thay thế**
+
+**Thay vì `if space_pressed`, ta dùng dữ liệu từ micro:**
+
+```python
+# Mỗi khung hình, đo volume từ microphone
+volume = get_mic_volume()
+
+# Phân tích mức hơi thở (AI-like logic)
+if 0.15 < volume < 0.35:
+    bird.velocity = -2  # giữ hơi đều → giữ độ cao
+elif volume >= 0.35:
+    bird.jump()         # thổi mạnh → bay cao
+else:
+    bird.velocity += 1  # thả hơi → rơi xuống
+```
+
+### 🎯 **Tối ưu hiệu suất**
+
+- ⚡ Cập nhật micro input mỗi **50–100ms** (`duration=0.05`)
+- 🧵 Dùng **thread hoặc async** để tránh làm chậm game loop
+- 📊 **Smoothing** để tránh input giật lag
+
+### 🖥️ **Thiết kế UI mới**
+
+- Giao diện hiển thị **thanh "Âm lượng hiện tại"** hoặc **icon micro** để người chơi biết mức hơi
+- Có tùy chọn **Mode chọn**: `Keyboard Mode` hoặc `Breath Mode`
+
+### 🧠 **Gợi ý cho GitHub Copilot**
+
+> **"This project uses real-time microphone audio input as an AI-style control system.  
+> The system reads volume levels (breath or voice) and converts them into game actions.  
+> The louder the sound, the higher the bird flies; keeping a steady breath keeps it stable.  
+> Implement signal processing, smoothing, and threshold logic for natural motion."**
+
+### 📝 **Ví dụ Prompt cho Copilot Chat**
+
+```
+Tôi đang phát triển Flappy Bird dùng hơi thở làm input.
+Viết hàm Python dùng sounddevice để đo âm lượng micro trong thời gian thực.
+Khi âm lượng > 0.3, cho bird.jump(), nếu giữ đều thì bird giữ thăng bằng,
+nếu im lặng thì bird rơi dần. Game chạy bằng Pygame.
+```
+
+---
+
 This project implements a Flappy Bird clone using the NEAT (NeuroEvolution of Augmenting Topologies) algorithm for AI-driven gameplay. The game allows users to experience the classic Flappy Bird mechanics while showcasing the capabilities of neuroevolution in training AI agents. Players control a bird navigating through pipes, with the goal of achieving the highest score possible. The project demonstrates the integration of Pygame for game development and NEAT-Python for evolving intelligent agents.
 
 ## Table of Contents

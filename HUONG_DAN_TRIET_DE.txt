@@ -1,0 +1,159 @@
+"""
+=================================================================
+HƯỚNG DẪN GIẢI QUYẾT TRIỆT ĐỂ - FLAPPY BIRD AI
+=================================================================
+
+BƯỚC 1: KIỂM TRA HỆ THỐNG
+--------------------------
+1. Kiểm tra Python đã cài đặt chưa:
+   > python --version
+   (Cần Python 3.7 trở lên)
+
+2. Kiểm tra các module cần thiết:
+   > pip list | findstr pygame
+   > pip list | findstr neat
+
+3. Nếu chưa có, cài đặt:
+   > pip install pygame neat-python
+
+BƯỚC 2: KIỂM TRA FILE CẦN THIẾT
+--------------------------------
+Thư mục imgs/ phải có:
+✅ bird1.png, bird2.png, bird3.png
+✅ pipe.png
+✅ base.png
+✅ bg.png hoặc bg_level1.png, bg_level2.png, bg_level3.png, bg_level4.png
+
+Thư mục imgs/audio/ (tùy chọn):
+⚪ jump.wav, point.wav, hit.wav, die.wav
+
+File cấu hình:
+✅ config-feedforward.txt
+✅ menu.py
+
+BƯỚC 3: CHẠY GAME
+-----------------
+Có 3 cách chạy game:
+
+CÁCH 1 - CHẠY PHIÊN BẢN ĐÃ FIX (KHUYẾN NGHỊ):
+   > python game_fixed.py
+   hoặc double-click: PLAY_FIXED.bat
+
+CÁCH 2 - CHẠY PHIÊN BẢN TỐI GIẢN:
+   > python flappy_game_minimal.py
+
+CÁCH 3 - CHẠY PHIÊN BẢN GỐC (CẦN DATABASE):
+   > python game.py
+
+BƯỚC 4: XỬ LÝ LỖI THƯỜNG GẶP
+-----------------------------
+
+LỖI 1: "No module named pygame"
+GIẢI PHÁP:
+   > pip install pygame
+
+LỖI 2: "No module named neat"
+GIẢI PHÁP:
+   > pip install neat-python
+
+LỖI 3: "No such file or directory: 'imgs/bird1.png'"
+GIẢI PHÁP:
+   - Đảm bảo thư mục imgs/ tồn tại
+   - Đảm bảo có đầy đủ file ảnh
+   - Chạy từ đúng thư mục: cd C:\Users\Bao\Desktop\Flappybird\NEAT-Flappy-bird
+
+LỖI 4: "from menu import show_menu, show_instructions - ImportError"
+GIẢI PHÁP:
+   - Đảm bảo file menu.py tồn tại
+   - Nếu không có, chạy: python create_simple_menu.py (file sẽ tạo tự động)
+
+LỖI 5: "No module named database" hoặc "No module named pymongo"
+GIẢI PHÁP:
+   - Dùng game_fixed.py (KHÔNG CẦN database)
+   - HOẶC cài MongoDB: pip install pymongo
+
+LỖI 6: Người chơi không chơi được / Game đơ
+GIẢI PHÁP:
+   - Dùng game_fixed.py (ĐÃ FIX)
+   - Đảm bảo nhấn SPACE để nhảy
+   - Đảm bảo có nhập tên người chơi
+
+BƯỚC 5: KIỂM TRA GAME HOẠT ĐỘNG
+-------------------------------
+Sau khi chạy game, bạn phải thấy:
+✅ Cửa sổ menu hiện ra
+✅ Có 4 nút: PLAY, START, HELP, EXIT
+✅ Nhấn PLAY → Nhập tên → Chơi được
+✅ Nhấn START → AI chơi tự động
+✅ Điểm số hiển thị
+✅ Level thay đổi khi đạt 50, 125, 250 điểm
+
+BƯỚC 6: TỐI ƯU HÓA
+-------------------
+Nếu muốn game chạy nhanh hơn:
+1. Giảm số generation của AI (trong file config-feedforward.txt)
+2. Tắt âm thanh (xóa thư mục imgs/audio/)
+3. Dùng background đơn giản (chỉ dùng bg.png)
+
+BƯỚC 7: BACKUP VÀ BẢO TRÌ
+--------------------------
+1. Backup folder hiện tại:
+   > xcopy /E /I "C:\Users\Bao\Desktop\Flappybird\NEAT-Flappy-bird" "C:\Users\Bao\Desktop\Flappybird_Backup"
+
+2. Lưu điểm cao vào file (nếu không dùng MongoDB):
+   - Điểm sẽ lưu trong RAM khi chạy game_fixed.py
+   - Để lưu vĩnh viễn, chuyển sang dùng game.py với MongoDB
+
+3. Cập nhật code sau này:
+   - Chỉnh sửa game_fixed.py cho dễ
+   - Có comment đầy đủ
+   - Có hệ thống fix lỗi tự động (fix_errors.py)
+
+=================================================================
+KHUYẾN NGHỊ CUỐI CÙNG
+=================================================================
+
+🎮 CHƠI NGAY:
+   Double-click: PLAY_FIXED.bat
+   hoặc: python game_fixed.py
+
+🤖 XEM AI CHƠI:
+   Chọn "START" từ menu
+   hoặc: python game_fixed.py → chọn START
+
+🔧 KIỂM TRA LỖI:
+   Double-click: CHECK_ERRORS.bat
+   hoặc: python fix_errors.py
+
+📚 ĐỌC HƯỚNG DẪN:
+   Chọn "HELP" từ menu
+
+=================================================================
+HỖ TRỢ
+=================================================================
+
+Nếu vẫn gặp lỗi:
+1. Chạy: python test_game.py (để tìm lỗi cụ thể)
+2. Xem log lỗi
+3. Đọc file này lại từ đầu
+
+Liên hệ:
+- Đọc file README.md
+- Xem file HUONG_DAN_4_LEVEL.md
+
+=================================================================
+TÓM TẮT NHANH
+=================================================================
+
+CÁCH NHANH NHẤT ĐỂ CHƠI NGAY:
+1. Mở terminal tại thư mục game
+2. Gõ: pip install pygame neat-python
+3. Gõ: python game_fixed.py
+4. Chọn PLAY
+5. Nhập tên
+6. Nhấn SPACE để nhảy
+
+XONG!
+
+=================================================================
+
