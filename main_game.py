@@ -43,8 +43,8 @@ def main():
             # PLAYER MODE - Don gian hon, chi dung SPACE
             pygame.display.set_caption("Flappy Bird - Player Mode")
             try:
-                from simple_play import play_simple_mode
-                play_simple_mode()
+                from player_mode import play_manual_mode
+                play_manual_mode()
             except Exception as e:
                 print(f"Loi: {e}")
                 import traceback
