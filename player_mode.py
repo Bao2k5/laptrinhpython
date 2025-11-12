@@ -1,6 +1,6 @@
 """
 Player Mode - Che do nguoi choi that (khong phai AI)
-Dieu khien: SPACE de nhay
+Dieu khien: SPACE de nhay, ESC de pause
 """
 import pygame
 import os
@@ -82,7 +82,8 @@ def play_manual_mode():
         STAT_FONT, LEVEL_FONT, LEVEL_NAMES, LEVEL_COLORS,
         SOUND_JUMP, SOUND_POINT, SOUND_HIT, SOUND_DIE
     )
-    
+    from ui_menus import show_pause_menu
+
     try:
         from database import FlappyBirdDB
         db = FlappyBirdDB()
@@ -95,7 +96,7 @@ def play_manual_mode():
     screen = pygame.display.get_surface()
     if screen is None:
         screen = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
-    
+
     pygame.display.set_caption("Flappy Bird - Player Mode")
 
     player_name = get_player_name(screen)
@@ -114,8 +115,10 @@ def play_manual_mode():
     max_level = 1
     level_up_timer = 0
     game_over = False
+    paused = False
 
     print(f"\nNguoi choi: {player_name} dang choi...")
+    print("Controls: SPACE = jump, ESC = pause/menu")
 
     run = True
     while run:
@@ -125,17 +128,34 @@ def play_manual_mode():
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE and not game_over:
+                if event.key == pygame.K_SPACE and not game_over and not paused:
                     bird.jump()
                     if SOUND_JUMP:
                         SOUND_JUMP.play()
-                if event.key == pygame.K_ESCAPE:
-                    run = False
+
+                # PAUSE MENU - Bam ESC
+                if event.key == pygame.K_ESCAPE and not game_over:
+                    paused = True
+                    pause_result = show_pause_menu(screen)
+
+                    if pause_result == 'resume':
+                        paused = False
+                        print("Resume game...")
+                    elif pause_result == 'restart':
+                        print("Restart game...")
+                        return play_manual_mode()
+                    elif pause_result == 'menu':
+                        print("Back to menu...")
+                        run = False
+                    else:
+                        paused = False
+
                 if event.key == pygame.K_RETURN and game_over:
                     # Restart
                     return play_manual_mode()
 
-        if not game_over:
+        # Chi update game khi khong pause va khong game over
+        if not game_over and not paused:
             # Update level
             current_level = get_current_level(score)
             if current_level > max_level:
@@ -184,7 +204,7 @@ def play_manual_mode():
                 if SOUND_DIE:
                     SOUND_DIE.play()
 
-        # Draw
+        # Draw (ve ngay ca khi pause)
         win = screen
         win.blit(BG_IMGS[current_level - 1], (0, 0))
 
@@ -224,13 +244,14 @@ def play_manual_mode():
             restart_text = font_small.render("Press ENTER to restart", 1, (200, 200, 200))
             win.blit(restart_text, (WIN_WIDTH // 2 - restart_text.get_width() // 2, WIN_HEIGHT // 2 + 50))
 
-            esc_text = font_small.render("Press ESC to exit", 1, (150, 150, 150))
+            esc_text = font_small.render("Press ESC to menu", 1, (150, 150, 150))
             win.blit(esc_text, (WIN_WIDTH // 2 - esc_text.get_width() // 2, WIN_HEIGHT // 2 + 100))
 
-            # Save to database
-            if db and db.client:
+            # Save to database (chi save 1 lan)
+            if db and db.client and not hasattr(game_over, '_saved'):
                 try:
                     db.save_high_score(player_name, score, max_level)
+                    game_over._saved = True
                 except:
                     pass
 
