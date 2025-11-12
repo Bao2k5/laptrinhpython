@@ -1,0 +1,31 @@
+{
+    "audio": {
+        "master_volume": 0.8,
+        "music_volume": 0.5,
+        "sfx_volume": 0.8,
+        "music_enabled": false,
+        "sfx_enabled": true
+    },
+    "graphics": {
+        "quality": "Medium",
+        "fps": 120,
+        "vsync": true,
+        "fullscreen": false,
+        "show_fps": false
+    },
+    "gameplay": {
+        "difficulty": "Hard",
+        "show_hitboxes": false,
+        "particles_enabled": false,
+        "screen_shake": true
+    },
+    "controls": {
+        "jump_key": "space",
+        "pause_key": "escape",
+        "mouse_control": false
+    },
+    "player": {
+        "name": "TestPlayer",
+        "selected_bird": "red"
+    }
+}

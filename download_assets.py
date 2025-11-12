@@ -21,7 +21,7 @@ def download_file(url, filepath):
 
 def main():
     base_dir = "future_assets"
-    
+
     # Danh sách các assets cần tải từ Flappy Bird sprites
     # Đã loại bỏ các file trùng lặp
     assets = {
@@ -35,11 +35,11 @@ def main():
         
         # Characters - 7 loại chim khác nhau (đã loại bỏ trùng lặp)
         # bird_blue, bird_red, bird_yellow là 3 màu chính
-        "characters/bird_orange.png": "https://raw.githubusercontent.com/sourabhv/FlapPyBird/master/assets/sprites/redbird-upflap.png",
-        "characters/bird_pink.png": "https://raw.githubusercontent.com/sourabhv/FlapPyBird/master/assets/sprites/bluebird-upflap.png",
+        "characters/bird_red.png": "https://raw.githubusercontent.com/sourabhv/FlapPyBird/master/assets/sprites/redbird-upflap.png",
+        "characters/bird_blue2.png": "https://raw.githubusercontent.com/sourabhv/FlapPyBird/master/assets/sprites/bluebird-upflap.png",
         
         # Thêm các animation frames cho chim (midflap)
-        "characters/bird_blue_mid.png": "https://raw.githubusercontent.com/sourabhv/FlapPyBird/master/assets/sprites/bluebird-midflap.png",
+        "characters/bird_blue_1.png": "https://raw.githubusercontent.com/sourabhv/FlapPyBird/master/assets/sprites/bluebird-midflap.png",
         "characters/bird_red_mid.png": "https://raw.githubusercontent.com/sourabhv/FlapPyBird/master/assets/sprites/redbird-midflap.png",
         "characters/bird_yellow_mid.png": "https://raw.githubusercontent.com/sourabhv/FlapPyBird/master/assets/sprites/yellowbird-midflap.png",
         
