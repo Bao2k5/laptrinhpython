@@ -21,28 +21,28 @@ def download_file(url, filepath):
 
 def main():
     base_dir = "future_assets"
-
+    
     # Danh sách các assets cần tải từ Flappy Bird sprites
+    # Đã loại bỏ các file trùng lặp
     assets = {
-        # Backgrounds
-        "backgrounds/bg_sunset.png": "https://raw.githubusercontent.com/samuelcust/flappy-bird-assets/master/sprites/background-day.png",
+        # Backgrounds - đã loại bỏ bg_sunset (trùng bg_day)
         "backgrounds/bg_cloudy.png": "https://raw.githubusercontent.com/samuelcust/flappy-bird-assets/master/sprites/background-night.png",
-
+        "backgrounds/bg_day.png": "https://raw.githubusercontent.com/samuelcust/flappy-bird-assets/master/sprites/background-day.png",
+        
         # Buttons
         "buttons/play_button.png": "https://raw.githubusercontent.com/samuelcust/flappy-bird-assets/master/sprites/message.png",
         "buttons/pause_button.png": "https://raw.githubusercontent.com/samuelcust/flappy-bird-assets/master/sprites/gameover.png",
-
-        # Characters - 7 loại chim với các màu và animation khác nhau
-        "characters/bird_green.png": "https://raw.githubusercontent.com/sourabhv/FlapPyBird/master/assets/sprites/bluebird-midflap.png",
+        
+        # Characters - 7 loại chim khác nhau (đã loại bỏ trùng lặp)
+        # bird_blue, bird_red, bird_yellow là 3 màu chính
         "characters/bird_orange.png": "https://raw.githubusercontent.com/sourabhv/FlapPyBird/master/assets/sprites/redbird-upflap.png",
-        "characters/bird_purple.png": "https://raw.githubusercontent.com/sourabhv/FlapPyBird/master/assets/sprites/yellowbird-downflap.png",
         "characters/bird_pink.png": "https://raw.githubusercontent.com/sourabhv/FlapPyBird/master/assets/sprites/bluebird-upflap.png",
-
-        # Thêm các animation frames cho chim
+        
+        # Thêm các animation frames cho chim (midflap)
         "characters/bird_blue_mid.png": "https://raw.githubusercontent.com/sourabhv/FlapPyBird/master/assets/sprites/bluebird-midflap.png",
         "characters/bird_red_mid.png": "https://raw.githubusercontent.com/sourabhv/FlapPyBird/master/assets/sprites/redbird-midflap.png",
         "characters/bird_yellow_mid.png": "https://raw.githubusercontent.com/sourabhv/FlapPyBird/master/assets/sprites/yellowbird-midflap.png",
-
+        
         # Numbers for score display
         "effects/number_1.png": "https://raw.githubusercontent.com/samuelcust/flappy-bird-assets/master/sprites/1.png",
         "effects/number_2.png": "https://raw.githubusercontent.com/samuelcust/flappy-bird-assets/master/sprites/2.png",
@@ -53,11 +53,10 @@ def main():
         "effects/number_7.png": "https://raw.githubusercontent.com/samuelcust/flappy-bird-assets/master/sprites/7.png",
         "effects/number_8.png": "https://raw.githubusercontent.com/samuelcust/flappy-bird-assets/master/sprites/8.png",
         "effects/number_9.png": "https://raw.githubusercontent.com/samuelcust/flappy-bird-assets/master/sprites/9.png",
-
-        # Thêm các pipes màu khác
+        
+        # Thêm các pipes màu khác - đã loại bỏ pipe_yellow (trùng pipe_red)
         "backgrounds/pipe_blue.png": "https://raw.githubusercontent.com/sourabhv/FlapPyBird/master/assets/sprites/pipe-green.png",
-        "backgrounds/pipe_yellow.png": "https://raw.githubusercontent.com/sourabhv/FlapPyBird/master/assets/sprites/pipe-red.png",
-
+        
         # Sounds
         "sounds/die.wav": "https://raw.githubusercontent.com/samuelcust/flappy-bird-assets/master/audio/die.wav",
         "sounds/hit.wav": "https://raw.githubusercontent.com/samuelcust/flappy-bird-assets/master/audio/hit.wav",
