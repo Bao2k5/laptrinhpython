@@ -277,4 +277,3 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"\nLoi: {e}")
         print("Kiem tra da cai Pillow: pip install Pillow")
-
