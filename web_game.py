@@ -16,8 +16,14 @@ app.secret_key = 'your-secret-key-here-12345'  # Fixed secret key
 # Pygame setup (chạy 1 lần)
 import os
 os.environ['SDL_VIDEODRIVER'] = 'dummy'  # Headless mode for server
-pygame.init()
-pygame.display.set_mode((1, 1))  # Dummy display for headless
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'  # Hide pygame messages
+
+try:
+    pygame.init()
+    pygame.display.set_mode((1, 1))  # Dummy display for headless
+    pygame.font.init()  # Initialize fonts
+except Exception as e:
+    print(f"Pygame init error: {e}")
 
 # Game dimensions
 WIDTH, HEIGHT = 400, 600
@@ -131,16 +137,22 @@ def draw_game():
         pygame.draw.rect(screen, colors['pipe'], (pipe['x'], pipe['top_height'] + pipe_gap, pipe_width, HEIGHT - pipe['top_height'] - pipe_gap))
     
     # Draw score
-    font = pygame.font.Font(None, 36)
-    score_text = font.render(str(score), True, colors['text'])
-    screen.blit(score_text, (20, 20))
+    try:
+        font = pygame.font.Font(None, 36)
+        score_text = font.render(str(score), True, colors['text'])
+        screen.blit(score_text, (20, 20))
+    except:
+        pass
     
     # Draw start message
     if not game_started:
-        font = pygame.font.Font(None, 24)
-        start_text = font.render("Nhấn SPACE để bắt đầu", True, colors['text'])
-        text_rect = start_text.get_rect(center=(WIDTH//2, HEIGHT//2))
-        screen.blit(start_text, text_rect)
+        try:
+            font = pygame.font.Font(None, 24)
+            start_text = font.render("Nhấn SPACE để bắt đầu", True, colors['text'])
+            text_rect = start_text.get_rect(center=(WIDTH//2, HEIGHT//2))
+            screen.blit(start_text, text_rect)
+        except:
+            pass
     
     # Draw game over message
     if game_over:
@@ -150,21 +162,22 @@ def draw_game():
         overlay.fill((0, 0, 0))
         screen.blit(overlay, (0, 0))
         
-        font = pygame.font.Font(None, 48)
-        game_over_text = font.render("GAME OVER", True, colors['text'])
-        text_rect = game_over_text.get_rect(center=(WIDTH//2, HEIGHT//2 - 50))
-        screen.blit(game_over_text, text_rect)
-        
-        font = pygame.font.Font(None, 24)
-        score_text = font.render(f"Điểm: {score}", True, colors['text'])
-        text_rect = score_text.get_rect(center=(WIDTH//2, HEIGHT//2))
-        screen.blit(score_text, text_rect)
-        
-        restart_text = font.render("Nhấn R để chơi lại", True, colors['text'])
-        text_rect = restart_text.get_rect(center=(WIDTH//2, HEIGHT//2 + 50))
-        screen.blit(restart_text, text_rect)
-    
-    pygame.display.flip()
+        try:
+            font = pygame.font.Font(None, 48)
+            game_over_text = font.render("GAME OVER", True, colors['text'])
+            text_rect = game_over_text.get_rect(center=(WIDTH//2, HEIGHT//2 - 50))
+            screen.blit(game_over_text, text_rect)
+            
+            font = pygame.font.Font(None, 24)
+            score_text = font.render(f"Điểm: {score}", True, colors['text'])
+            text_rect = score_text.get_rect(center=(WIDTH//2, HEIGHT//2))
+            screen.blit(score_text, text_rect)
+            
+            restart_text = font.render("Nhấn R để chơi lại", True, colors['text'])
+            text_rect = restart_text.get_rect(center=(WIDTH//2, HEIGHT//2 + 50))
+            screen.blit(restart_text, text_rect)
+        except:
+            pass
 
 def game_loop():
     clock = pygame.time.Clock()
