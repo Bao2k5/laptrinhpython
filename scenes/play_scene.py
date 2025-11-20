@@ -12,21 +12,21 @@ class PlayScene:
         self.player_name = player_name
 
         # Background
-        self.bg = pygame.image.load("assets/background.png").convert()
+        self.bg = pygame.image.load(asset_path('assets', 'background.png')).convert()
         self.bg = pygame.transform.scale(self.bg, (WIDTH, HEIGHT))
 
         # Bird
-        self.bird_img = pygame.image.load("assets/bird.png").convert_alpha()
+        self.bird_img = pygame.image.load(asset_path('assets', 'bird.png')).convert_alpha()
         self.bird_img = pygame.transform.scale(self.bird_img, (40, 30))
 
         # Pipes
-        self.pipe_img = pygame.image.load("assets/pipe.png").convert_alpha()
+        self.pipe_img = pygame.image.load(asset_path('assets', 'pipe.png')).convert_alpha()
         self.pipe_img = pygame.transform.scale(self.pipe_img, (80, 500))
         self.pipe_top_img = pygame.transform.flip(self.pipe_img, False, True)
 
         # Sounds
-        self.flap_sound = pygame.mixer.Sound("assets/flap.wav")
-        self.hit_sound = pygame.mixer.Sound("assets/hit.wav")
+        self.flap_sound = load_sound('assets/flap') or load_sound('assets/flap.wav')
+        self.hit_sound = load_sound('assets/hit') or load_sound('assets/hit.wav')
 
         self.font = pygame.font.Font(None, 40)
 

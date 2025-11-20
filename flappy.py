@@ -3,7 +3,7 @@ import random
 import json
 import os
 import sys
-import requests   # <-- thêm để gửi dữ liệu sang Flask
+from utils import send_score_to_server, asset_path, load_sound, in_browser
 
 from AI.genetic import next_generation
 from AI.bird_ai import BirdAI
@@ -22,17 +22,17 @@ high_score = 0
 # ==========================
 #   LOAD ASSETS
 # ==========================
-bg_img = pygame.image.load("assets/background.png")
-bird_img = pygame.image.load("assets/bird.png")
-pipe_img = pygame.image.load("assets/pipe.png")
-menu_bg = pygame.image.load("assets/menu_bg.png")
-gameover_bg = pygame.image.load("assets/gameover_bg.png")
-play_btn = pygame.image.load("assets/play_btn.png")
-play_btn_hover = pygame.image.load("assets/play_btn_hover.png")
-train_btn = pygame.image.load("assets/train_btn.png")
-train_btn_hover = pygame.image.load("assets/train_btn_hover.png")
-quit_btn = pygame.image.load("assets/quit_btn.png")
-quit_btn_hover = pygame.image.load("assets/quit_btn_hover.png")
+bg_img = pygame.image.load(asset_path('assets', 'background.png'))
+bird_img = pygame.image.load(asset_path('assets', 'bird.png'))
+pipe_img = pygame.image.load(asset_path('assets', 'pipe.png'))
+menu_bg = pygame.image.load(asset_path('assets', 'menu_bg.png'))
+gameover_bg = pygame.image.load(asset_path('assets', 'gameover_bg.png'))
+play_btn = pygame.image.load(asset_path('assets', 'play_btn.png'))
+play_btn_hover = pygame.image.load(asset_path('assets', 'play_btn_hover.png'))
+train_btn = pygame.image.load(asset_path('assets', 'train_btn.png'))
+train_btn_hover = pygame.image.load(asset_path('assets', 'train_btn_hover.png'))
+quit_btn = pygame.image.load(asset_path('assets', 'quit_btn.png'))
+quit_btn_hover = pygame.image.load(asset_path('assets', 'quit_btn_hover.png'))
 
 bird_img = pygame.transform.scale(bird_img, (40, 30))
 pipe_img = pygame.transform.scale(pipe_img, (80, 500))
@@ -48,8 +48,7 @@ train_btn_hover = pygame.transform.scale(train_btn_hover, (btn_width, btn_height
 quit_btn = pygame.transform.scale(quit_btn, (btn_width, btn_height))
 quit_btn_hover = pygame.transform.scale(quit_btn_hover, (btn_width, btn_height))
 
-flap_sound = pygame.mixer.Sound("assets/flap.wav")
-hit_sound = pygame.mixer.Sound("assets/hit.wav")
+# sounds will be loaded with helper (try .ogg then .wav)
 
 bird = pygame.Rect(50, 300, 40, 30)
 bird_speed = 0
@@ -70,16 +69,8 @@ clock = pygame.time.Clock()
 # ================================================================
 #   HÀM GỬI ĐIỂM LÊN SERVER FLASK
 # ================================================================
-def send_score_to_server(player_name, score):
-    try:
-        requests.post(
-            "http://127.0.0.1:5000/api/score",
-            json={"username": player_name, "score": score},
-            timeout=1.0
-        )
-        print(f"Đã gửi điểm {score} của {player_name} lên server!")
-    except:
-        print("⚠ Không gửi được điểm lên Flask (server có thể chưa chạy)")
+flap_sound = load_sound('assets/flap') or load_sound('assets/flap.wav')
+hit_sound = load_sound('assets/hit') or load_sound('assets/hit.wav')
 
 
 # ================================================================
@@ -102,8 +93,6 @@ def save_highscore(data):
         json.dump(data, f, indent=4)
 
 
-# ================================================================
-#   MENU
 # ================================================================
 def draw_button_with_text(image, hover, rect, mouse_pos, text):
     font = pygame.font.Font(None, 40)
