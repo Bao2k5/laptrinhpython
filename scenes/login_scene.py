@@ -53,10 +53,15 @@ class LoginScene:
 
                 if e.type == pygame.MOUSEBUTTONDOWN:
                     if login_rect.collidepoint(e.pos):
-                        if check_login(username, password):
-                            return "menu", {"player": username}
-                        else:
-                            print("LOGIN FAILED")
+                            if in_browser():
+                                # Browser should use backend API for auth
+                                print("Login not available in browser build. Use backend API.")
+                            else:
+                                from database import check_login
+                                if check_login(username, password):
+                                    return "menu", {"player": username}
+                                else:
+                                    print("LOGIN FAILED")
 
                     if register_rect.collidepoint(e.pos):
                         return "register", {}
@@ -72,8 +77,12 @@ class LoginScene:
                             password = password[:-1]
 
                     elif e.key == pygame.K_RETURN:
-                        if check_login(username, password):
-                            return "menu", {"player": username}
+                            if in_browser():
+                                print("Login not available in browser build. Use backend API.")
+                            else:
+                                from database import check_login
+                                if check_login(username, password):
+                                    return "menu", {"player": username}
 
                     else:
                         if active == "user" and len(username) < 12:

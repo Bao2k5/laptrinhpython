@@ -1,5 +1,7 @@
+
 import pygame
 import sys
+from utils import asset_path
 
 
 class MenuScene:
@@ -9,17 +11,17 @@ class MenuScene:
         self.font_title = pygame.font.Font(None, 70)
         self.font_small = pygame.font.Font(None, 32)
 
-        self.bg = pygame.image.load("assets/menu_bg.png").convert()
+        self.bg = pygame.image.load(asset_path('assets', 'menu_bg.png')).convert()
         self.bg = pygame.transform.scale(self.bg, (500, 600))
 
-        self.btn_play = pygame.image.load("assets/play_btn.png").convert_alpha()
-        self.btn_play_hover = pygame.image.load("assets/play_btn_hover.png").convert_alpha()
+        self.btn_play = pygame.image.load(asset_path('assets', 'play_btn.png')).convert_alpha()
+        self.btn_play_hover = pygame.image.load(asset_path('assets', 'play_btn_hover.png')).convert_alpha()
 
-        self.btn_scores = pygame.image.load("assets/play_btn.png").convert_alpha()
-        self.btn_scores_hover = pygame.image.load("assets/play_btn_hover.png").convert_alpha()
+        self.btn_scores = pygame.image.load(asset_path('assets', 'play_btn.png')).convert_alpha()
+        self.btn_scores_hover = pygame.image.load(asset_path('assets', 'play_btn_hover.png')).convert_alpha()
 
-        self.btn_quit = pygame.image.load("assets/quit_btn.png").convert_alpha()
-        self.btn_quit_hover = pygame.image.load("assets/quit_btn_hover.png").convert_alpha()
+        self.btn_quit = pygame.image.load(asset_path('assets', 'quit_btn.png')).convert_alpha()
+        self.btn_quit_hover = pygame.image.load(asset_path('assets', 'quit_btn_hover.png')).convert_alpha()
 
         self.btn_w, self.btn_h = 200, 50
 

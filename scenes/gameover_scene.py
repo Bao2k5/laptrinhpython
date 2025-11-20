@@ -1,5 +1,6 @@
 import pygame
 import sys
+from utils import asset_path, in_browser
 
 WIDTH, HEIGHT = 500, 600
 
@@ -9,7 +10,7 @@ class GameOverScene:
         self.player_name = player_name
         self.score = score
 
-        self.bg = pygame.image.load("assets/gameover_bg.png").convert()
+        self.bg = pygame.image.load(asset_path('assets', 'gameover_bg.png')).convert()
         self.bg = pygame.transform.scale(self.bg, (WIDTH, HEIGHT))
 
         self.font_big = pygame.font.Font(None, 70)

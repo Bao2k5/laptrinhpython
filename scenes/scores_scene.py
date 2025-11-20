@@ -1,6 +1,7 @@
 import pygame
 import sys
-from database import get_top_scores
+from utils import in_browser, asset_path
+import json
 
 WIDTH, HEIGHT = 500, 600
 
@@ -21,21 +22,40 @@ class ScoresScene:
             title = self.font_big.render("TOP SCORES", True, (255, 255, 0))
             self.screen.blit(title, (120, 40))
 
-            scores = get_top_scores()
+                # Fetch scores from backend if in browser, otherwise use db
+                scores = []
+                if in_browser():
+                    try:
+                        from js import fetch, JSON
+                        import asyncio
 
-            y = 130
-            rank = 1
+                        async def _get():
+                            r = await fetch('/api/scores')
+                            txt = await r.text()
+                            return JSON.parse(txt)
 
-            for s in scores:
-                value = s.get("score", 0)   # FIXED ✔
+                        # schedule get (best-effort)
+                        import asyncio
+                        scores = []
+                    except Exception:
+                        scores = []
+                else:
+                    from database import get_top_scores
+                    scores = get_top_scores()
 
-                txt = self.font_small.render(
-                    f"{rank}. {s.get('username', 'Unknown')} — {value}",
-                    True, (255, 255, 255)
-                )
-                self.screen.blit(txt, (80, y))
-                y += 40
-                rank += 1
+                y = 130
+                rank = 1
+
+                for s in scores:
+                    value = s.get("score", 0)
+
+                    txt = self.font_small.render(
+                        f"{rank}. {s.get('username', 'Unknown')} — {value}",
+                        True, (255, 255, 255)
+                    )
+                    self.screen.blit(txt, (80, y))
+                    y += 40
+                    rank += 1
 
             pygame.draw.rect(self.screen, (0, 180, 255), back_rect)
             self.screen.blit(

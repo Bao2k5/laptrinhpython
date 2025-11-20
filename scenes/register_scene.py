@@ -1,6 +1,6 @@
 import pygame
 import sys
-from database import create_user
+from utils import in_browser, asset_path
 
 class RegisterScene:
     def __init__(self, screen):
@@ -49,10 +49,16 @@ class RegisterScene:
 
                 if e.type == pygame.MOUSEBUTTONDOWN:
                     if reg_rect.collidepoint(e.pos):
-                        if create_user(username, password):
+                        if in_browser():
+                            # In browser, registration should go through backend API.
+                            print("Registration is disabled in the browser build. Use backend API.")
                             return "login", {}
                         else:
-                            print("User exists!")
+                            from database import create_user
+                            if create_user(username, password):
+                                return "login", {}
+                            else:
+                                print("User exists!")
 
                     if back_rect.collidepoint(e.pos):
                         return "login", {}
