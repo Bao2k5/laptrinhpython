@@ -37,10 +37,10 @@ class ScoresScene:
                 y += 40
                 rank += 1
 
-            pygame.draw.rect(self.screen, (0, 120, 255), back_rect)
+            pygame.draw.rect(self.screen, (0, 180, 255), back_rect)
             self.screen.blit(
                 self.font_small.render("Back", True, (255, 255, 255)),
-                (back_rect.x + 60, back_rect.y + 5)
+                (back_rect.x + 70, back_rect.y + 7)
             )
 
             pygame.display.update()

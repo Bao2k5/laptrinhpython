@@ -33,8 +33,8 @@ class LoginScene:
             self.screen.blit(txt, (130, 245))
 
             # Buttons
-            login_rect = pygame.Rect(180, 320, 140, 45)
-            register_rect = pygame.Rect(180, 380, 140, 45)
+            login_rect = pygame.Rect(180, 320, 155, 45)
+            register_rect = pygame.Rect(180, 380, 155, 45)
 
             pygame.draw.rect(self.screen, (50, 150, 200), login_rect)
             pygame.draw.rect(self.screen, (50, 200, 120), register_rect)
