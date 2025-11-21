@@ -1,4 +1,5 @@
 flask
 pygame
 pygbag
+pymongo
 gunicorn>=20.0
