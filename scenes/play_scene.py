@@ -1,7 +1,9 @@
 import pygame
 import sys
 import random
+import asyncio
 from database import save_score
+from utils import asset_path, load_sound
 
 WIDTH, HEIGHT = 500, 600
 
@@ -30,7 +32,7 @@ class PlayScene:
 
         self.font = pygame.font.Font(None, 40)
 
-    def run(self):
+    async def run(self):
         # Bird physics
         bird = pygame.Rect(80, 250, 40, 30)
         bird_vel = 0
@@ -52,6 +54,7 @@ class PlayScene:
         clock = pygame.time.Clock()
 
         while True:
+            await asyncio.sleep(0)
             clock.tick(60)
 
             # -------- EVENT --------
@@ -63,7 +66,8 @@ class PlayScene:
                 if e.type == pygame.KEYDOWN:
                     if e.key == pygame.K_SPACE:
                         bird_vel = jump_force
-                        self.flap_sound.play()
+                        if self.flap_sound:
+                            self.flap_sound.play()
 
                     if e.key == pygame.K_ESCAPE:
                         return "menu", {"player": self.player_name}
@@ -91,7 +95,8 @@ class PlayScene:
                 bird.colliderect(pipe_bottom) or
                 bird.y < 0 or bird.y > HEIGHT):
 
-                self.hit_sound.play()
+                if self.hit_sound:
+                    self.hit_sound.play()
 
                 # Lưu điểm vào Mongo
                 save_score(self.player_name, score)

@@ -1,7 +1,8 @@
 import pygame
 import sys
-from utils import in_browser, asset_path
+import asyncio
 import json
+from utils import in_browser, asset_path
 
 WIDTH, HEIGHT = 500, 600
 
@@ -12,50 +13,57 @@ class ScoresScene:
         self.font_big = pygame.font.Font(None, 60)
         self.font_small = pygame.font.Font(None, 35)
 
-    def run(self):
-
+    async def run(self):
         back_rect = pygame.Rect(150, 520, 200, 45)
+        
+        # Fetch scores once
+        scores = []
+        if in_browser():
+            try:
+                from js import fetch, JSON
+                response = await fetch('/api/scores')
+                text = await response.text()
+                scores = JSON.parse(text)
+            except Exception as e:
+                print(f"Error fetching scores: {e}")
+                scores = []
+        else:
+            try:
+                from database import get_top_scores
+                scores = get_top_scores()
+            except Exception:
+                scores = []
 
         while True:
+            await asyncio.sleep(0)
             self.screen.fill((20, 20, 60))
 
             title = self.font_big.render("TOP SCORES", True, (255, 255, 0))
             self.screen.blit(title, (120, 40))
 
-                # Fetch scores from backend if in browser, otherwise use db
-                scores = []
-                if in_browser():
-                    try:
-                        from js import fetch, JSON
-                        import asyncio
+            y = 130
+            rank = 1
 
-                        async def _get():
-                            r = await fetch('/api/scores')
-                            txt = await r.text()
-                            return JSON.parse(txt)
+            for s in scores:
+                # Handle both dict (python) and JS object (browser) if needed, 
+                # but JSON.parse usually returns dict-like in python-wasm bridge or we need to access attributes.
+                # If using pygbag, it might be a JS proxy.
+                # Safest is to try dict access, if fail try attr access.
+                try:
+                    username = s.get("username", "Unknown")
+                    score_val = s.get("score", 0)
+                except:
+                    # If it's a JS object proxy
+                    username = s.username if hasattr(s, 'username') else "Unknown"
+                    score_val = s.score if hasattr(s, 'score') else 0
 
-                        # schedule get (best-effort)
-                        import asyncio
-                        scores = []
-                    except Exception:
-                        scores = []
-                else:
-                    from database import get_top_scores
-                    scores = get_top_scores()
-
-                y = 130
-                rank = 1
-
-                for s in scores:
-                    value = s.get("score", 0)
-
-                    txt = self.font_small.render(
-                        f"{rank}. {s.get('username', 'Unknown')} — {value}",
-                        True, (255, 255, 255)
-                    )
-                    self.screen.blit(txt, (80, y))
-                    y += 40
-                    rank += 1
+                txt = self.font_small.render(
+                    f"{rank}. {username} — {score_val}",
+                    True, (255, 255, 255)
+                )
+                self.screen.blit(txt, (80, y))
+                y += 40
+                rank += 1
 
             pygame.draw.rect(self.screen, (0, 180, 255), back_rect)
             self.screen.blit(

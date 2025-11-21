@@ -1,6 +1,8 @@
 import pygame
 import sys
+import asyncio
 from database import check_login
+from utils import in_browser
 
 class LoginScene:
     def __init__(self, screen):
@@ -10,12 +12,13 @@ class LoginScene:
         self.input_pass = ""
         self.is_password = True
 
-    def run(self):
+    async def run(self):
         username = ""
         password = ""
         active = "user"
 
         while True:
+            await asyncio.sleep(0)
             self.screen.fill((20, 20, 30))
 
             title = self.font.render("LOGIN", True, (255, 255, 0))

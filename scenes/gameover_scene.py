@@ -1,5 +1,6 @@
 import pygame
 import sys
+import asyncio
 from utils import asset_path, in_browser
 
 WIDTH, HEIGHT = 500, 600
@@ -16,12 +17,13 @@ class GameOverScene:
         self.font_big = pygame.font.Font(None, 70)
         self.font_small = pygame.font.Font(None, 40)
 
-    def run(self):
+    async def run(self):
         restart_rect = pygame.Rect(150, 330, 200, 50)
         menu_rect = pygame.Rect(150, 400, 200, 50)
         quit_rect = pygame.Rect(150, 470, 200, 50)
 
         while True:
+            await asyncio.sleep(0)
             self.screen.blit(self.bg, (0, 0))
 
             # Title

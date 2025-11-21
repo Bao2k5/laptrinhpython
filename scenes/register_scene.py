@@ -1,5 +1,6 @@
 import pygame
 import sys
+import asyncio
 from utils import in_browser, asset_path
 
 class RegisterScene:
@@ -7,12 +8,13 @@ class RegisterScene:
         self.screen = screen
         self.font = pygame.font.Font(None, 40)
 
-    def run(self):
+    async def run(self):
         username = ""
         password = ""
         active = "user"
 
         while True:
+            await asyncio.sleep(0)
             self.screen.fill((20, 20, 40))
 
             title = self.font.render("REGISTER", True, (255, 255, 0))

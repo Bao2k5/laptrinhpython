@@ -1,6 +1,7 @@
 
 import pygame
 import sys
+import asyncio
 from utils import asset_path
 
 
@@ -34,12 +35,13 @@ class MenuScene:
         self.btn_quit = pygame.transform.scale(self.btn_quit, (self.btn_w, self.btn_h))
         self.btn_quit_hover = pygame.transform.scale(self.btn_quit_hover, (self.btn_w, self.btn_h))
 
-    def run(self):
+    async def run(self):
         play_rect = pygame.Rect(150, 260, self.btn_w, self.btn_h)
         scores_rect = pygame.Rect(150, 330, self.btn_w, self.btn_h)
         quit_rect = pygame.Rect(150, 400, self.btn_w, self.btn_h)
 
         while True:
+            await asyncio.sleep(0)
             self.screen.blit(self.bg, (0, 0))
             mx, my = pygame.mouse.get_pos()
 
