@@ -2,7 +2,11 @@ from flask import Flask, request, jsonify, send_from_directory
 import os
 from database import save_score, get_top_scores
 
-app = Flask(__name__, static_folder='build/web')
+# Lấy đường dẫn tuyệt đối đến thư mục build/web
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+STATIC_FOLDER = os.path.join(BASE_DIR, 'build', 'web')
+
+app = Flask(__name__, static_folder=STATIC_FOLDER)
 
 @app.route('/')
 def index():
