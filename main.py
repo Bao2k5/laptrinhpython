@@ -42,41 +42,59 @@ async def run_desktop_game():
         current_scene = scene_name
 
 
-    while True:
-        # The outer loop doesn't need sleep(0) because it awaits the inner loops (scenes)
-        # which already sleep.
-        
-        player = scene_data.get("player")
-
-        if current_scene == "login":
-            next_scene, data = await LoginScene(screen).run()
-            goto(next_scene, **data)
-
-        elif current_scene == "register":
-            next_scene, data = await RegisterScene(screen).run()
-            goto(next_scene, **data)
-
-        elif current_scene == "menu":
-            next_scene, data = await MenuScene(screen, player).run()
-            goto(next_scene, **data)
-
-        elif current_scene == "play":
-            next_scene, data = await PlayScene(screen, player).run()
-            goto(next_scene, **data)
-
-        elif current_scene == "scores":
-            player = scene_data.get("player")
-            next_scene, data = await ScoresScene(screen, player).run()
-            goto(next_scene, **data)
-
-        elif current_scene == "gameover":
-            score = scene_data.get("score", 0)
-            next_scene, data = await GameOverScene(screen, player, score).run()
-            goto(next_scene, **data)
+    try:
+        while True:
+            # The outer loop doesn't need sleep(0) because it awaits the inner loops (scenes)
+            # which already sleep.
             
-        elif current_scene == "train":
-            next_scene, data = await TrainScene(screen).run()
-            goto(next_scene, **data)
+            player = scene_data.get("player")
+
+            if current_scene == "login":
+                next_scene, data = await LoginScene(screen).run()
+                goto(next_scene, **data)
+
+            elif current_scene == "register":
+                next_scene, data = await RegisterScene(screen).run()
+                goto(next_scene, **data)
+
+            elif current_scene == "menu":
+                next_scene, data = await MenuScene(screen, player).run()
+                goto(next_scene, **data)
+
+            elif current_scene == "play":
+                next_scene, data = await PlayScene(screen, player).run()
+                goto(next_scene, **data)
+
+            elif current_scene == "scores":
+                player = scene_data.get("player")
+                next_scene, data = await ScoresScene(screen, player).run()
+                goto(next_scene, **data)
+
+            elif current_scene == "gameover":
+                score = scene_data.get("score", 0)
+                next_scene, data = await GameOverScene(screen, player, score).run()
+                goto(next_scene, **data)
+                
+            elif current_scene == "train":
+                next_scene, data = await TrainScene(screen).run()
+                goto(next_scene, **data)
+
+    except Exception as e:
+        import traceback
+        err_msg = traceback.format_exc()
+        print(err_msg) # To console
+        
+        # Draw to screen
+        font = pygame.font.SysFont("Arial", 14)
+        while True:
+            screen.fill((0, 0, 0))
+            y = 10
+            for line in err_msg.split('\n'):
+                txt = font.render(line, True, (255, 0, 0))
+                screen.blit(txt, (10, y))
+                y += 20
+            pygame.display.update()
+            await asyncio.sleep(0)
 
     pygame.quit()
     sys.exit()

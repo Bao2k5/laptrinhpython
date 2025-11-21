@@ -1,38 +1,38 @@
-# Deployment Guide
+# Hướng dẫn Triển khai (Deployment Guide)
 
-## Option 1: GitHub Pages (Static - No Shared Scores)
-*Best for: Simple hosting, no cost, no database setup.*
-*Limitation: High scores are only saved locally on the player's device.*
+## Cách 1: GitHub Pages (Tĩnh - Không lưu điểm chung)
+*Phù hợp cho: Web đơn giản, miễn phí, không cần cài đặt database.*
+*Hạn chế: Điểm cao chỉ lưu trên máy của người chơi.*
 
-1.  **Upload Code**: Push your code to GitHub.
-2.  **Deploy**: Go to Settings > Pages, select `gh-pages` branch (or `master` /root).
-3.  **Play**: Visit your `github.io` link.
+1.  **Upload Code**: Đẩy code của bạn lên GitHub.
+2.  **Deploy**: Vào Settings > Pages, chọn nhánh `gh-pages` (hoặc `master` / `root`).
+3.  **Chơi**: Truy cập vào link `github.io` của bạn.
 
 ---
 
-## Option 2: Render (Dynamic - Shared Scores)
-*Best for: Multiplayer features, shared high scores.*
-*Requirement: A Render account and a MongoDB database.*
+## Cách 2: Render (Động - Lưu điểm chung)
+*Phù hợp cho: Tính năng nhiều người chơi, bảng xếp hạng chung.*
+*Yêu cầu: Tài khoản Render và database MongoDB.*
 
-### 1. Prepare MongoDB
-You need a cloud database. **MongoDB Atlas** is a good free option.
-1.  Create an account on [MongoDB Atlas](https://www.mongodb.com/atlas).
-2.  Create a free cluster.
-3.  Get your **Connection String** (URI). It looks like: `mongodb+srv://<user>:<password>@cluster0.mongodb.net/...`
+### 1. Chuẩn bị MongoDB
+Bạn cần một database đám mây. **MongoDB Atlas** là lựa chọn miễn phí tốt.
+1.  Tạo tài khoản tại [MongoDB Atlas](https://www.mongodb.com/atlas).
+2.  Tạo một cluster miễn phí (Free Cluster).
+3.  Lấy **Connection String** (URI). Nó trông giống như: `mongodb+srv://<user>:<password>@cluster0.mongodb.net/...`
 
-### 2. Deploy to Render
-1.  Create an account on [Render.com](https://render.com).
-2.  Click **New +** and select **Web Service**.
-3.  Connect your GitHub repository.
-4.  **Settings**:
+### 2. Triển khai lên Render
+1.  Tạo tài khoản tại [Render.com](https://render.com).
+2.  Nhấn **New +** và chọn **Web Service**.
+3.  Kết nối với kho code GitHub của bạn.
+4.  **Cài đặt (Settings)**:
     *   **Runtime**: Python 3
-    *   **Build Command**: `pip install -r requirements.txt`
+    *   **Build Command**: `python build.py`
     *   **Start Command**: `gunicorn app:app`
-5.  **Environment Variables** (Important!):
+5.  **Biến môi trường (Environment Variables)** (Quan trọng!):
     *   Key: `MONGO_URI`
-    *   Value: (Paste your MongoDB Connection String here)
-6.  Click **Create Web Service**.
+    *   Value: (Dán Connection String của MongoDB vào đây)
+6.  Nhấn **Create Web Service**.
 
-### 3. Play!
-Render will give you a URL (e.g., `https://flappy-bird.onrender.com`).
-Everyone playing on this URL will share the same High Score board!
+### 3. Chơi thôi!
+Render sẽ cấp cho bạn một đường link (ví dụ: `https://flappy-bird.onrender.com`).
+Mọi người chơi trên link này sẽ cùng chia sẻ bảng xếp hạng High Score!
