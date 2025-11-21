@@ -19,3 +19,9 @@ def register_user(username, password):
     """
     # For now, allow any registration (offline mode)
     return True if username and password else False
+
+def create_user(username, password):
+    """
+    Alias for register_user
+    """
+    return register_user(username, password)
