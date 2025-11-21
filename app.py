@@ -18,6 +18,25 @@ def serve_static(path):
     # Serve other static files (apk, js, etc.)
     return send_from_directory(app.static_folder, path)
 
+@app.route('/debug/check-files')
+def debug_check_files():
+    """Debug endpoint to check if build files exist"""
+    import os
+    result = {
+        "static_folder": app.static_folder,
+        "base_dir": BASE_DIR,
+        "files_in_static": []
+    }
+    try:
+        if os.path.exists(app.static_folder):
+            result["static_folder_exists"] = True
+            result["files_in_static"] = os.listdir(app.static_folder)
+        else:
+            result["static_folder_exists"] = False
+    except Exception as e:
+        result["error"] = str(e)
+    return jsonify(result)
+
 @app.route('/api/scores', methods=['GET'])
 def get_scores():
     scores = get_top_scores()
