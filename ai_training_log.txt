@@ -1,5 +1,0 @@
-GEN 1 | Pipes Passed = 76 | Fitness Best = 9125
-GEN 2 | Pipes Passed = 72 | Fitness Best = 8644
-GEN 3 | Pipes Passed = 70 | Fitness Best = 8397
-GEN 4 | Pipes Passed = 74 | Fitness Best = 8876
-GEN 5 | Pipes Passed = 77 | Fitness Best = 9239
