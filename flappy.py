@@ -188,6 +188,18 @@ def input_player_name():
 
 
 # ================================================================
+#   AI TRAINING
+# ================================================================
+async def train_ai():
+    print("Starting AI Training...")
+    # Placeholder: In a real implementation, this would run the genetic algorithm loop
+    # similar to play_normal_game but with multiple birds and no rendering (or fast rendering).
+    import asyncio
+    while True:
+        await asyncio.sleep(1)
+        print("AI is training... (Press Stop to exit)")
+
+# ================================================================
 #   GAME LOOP
 # ================================================================
 def play_normal_game(player_name):
@@ -284,4 +296,5 @@ if __name__ == "__main__":
             pass
 
         elif mode == "train":
-            train_ai()
+            import asyncio
+            asyncio.run(train_ai())
