@@ -1,5 +1,5 @@
 // API Configuration
-const API_BASE_URL = 'https://flappybird-duatop-api.onrender.com';
+const API_BASE_URL = 'https://flappybird-duatop.onrender.com';
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
