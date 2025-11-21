@@ -1,4 +1,3 @@
-from flask import Flask, render_template
 import sys
 import asyncio
 
@@ -8,14 +7,6 @@ try:
     import pygame
 except Exception:
     pygame = None
-
-# Expose a WSGI app so Render/Gunicorn can import `main:app`
-app = Flask(__name__)
-
-
-@app.route('/')
-def index():
-    return render_template('web_game.html') if app.template_folder else 'Flappy Bird Web'
 
 
 async def run_desktop_game():
