@@ -1,9 +1,10 @@
-# Flappy Bird Landing Page
-
-Static website for Flappy Bird game distribution.
-
-## Build Command
-Leave empty (static site)
-
-## Publish Directory
-website
+services:
+  - type: web
+    name: laptrinthpython-api
+    env: python
+    branch: branch-PY
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
