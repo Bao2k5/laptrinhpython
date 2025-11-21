@@ -106,8 +106,8 @@ function animateNumber(elementId, targetValue) {
 function setupDownloadButton() {
     const downloadBtn = document.getElementById('download-btn');
 
-    // Google Drive direct download link
-    const downloadLink = 'https://drive.google.com/uc?export=download&id=1yOef8QvdksVbHKID9uyad8XWkBn76Dum';
+    // Google Drive direct download link - Fixed version with all dependencies
+    const downloadLink = 'https://drive.google.com/uc?export=download&id=1HxytnhRnPCjdLyYhMXNOQIUJsz1z35FF';
 
     downloadBtn.addEventListener('click', (e) => {
         e.preventDefault();

@@ -1,0 +1,48 @@
+# HƯỚNG DẪN CÀI ĐẶT FLAPPY BIRD
+
+## 📥 Bước 1: Tải Game
+
+Bạn đã tải file `FlappyBird.exe` thành công!
+
+## ⚠️ Bước 2: Xử Lý Cảnh Báo Windows
+
+Khi chạy lần đầu, Windows có thể cảnh báo:
+
+### Nếu thấy "Windows protected your PC"
+1. Nhấn **"More info"**
+2. Nhấn **"Run anyway"**
+
+### Nếu Windows Defender chặn
+1. Mở **Windows Security**
+2. **Virus & threat protection** → **Protection history**
+3. Tìm `FlappyBird.exe` → **Allow**
+
+## 🎮 Bước 3: Chạy Game
+
+1. Double-click `FlappyBird.exe`
+2. Đợi vài giây để game khởi động
+3. Chơi và enjoy!
+
+## ❓ Troubleshooting
+
+### Game không mở được
+- **Nguyên nhân**: Windows Defender chặn
+- **Giải pháp**: Làm theo Bước 2 ở trên
+
+### Thiếu file DLL
+- **Nguyên nhân**: Thiếu Visual C++ Runtime
+- **Giải pháp**: Tải và cài [Microsoft Visual C++ Redistributable](https://aka.ms/vs/17/release/vc_redist.x64.exe)
+
+### Game crash khi mở
+- **Nguyên nhân**: Thiếu dependencies
+- **Giải pháp**: Chạy lại file .exe
+
+## 📞 Hỗ Trợ
+
+Nếu vẫn gặp vấn đề, liên hệ:
+- GitHub: https://github.com/Bao2k5/laptrinhpython
+- Issues: https://github.com/Bao2k5/laptrinhpython/issues
+
+---
+
+**Chúc bạn chơi game vui vẻ!** 🎉
