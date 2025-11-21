@@ -107,7 +107,7 @@ function setupDownloadButton() {
     const downloadBtn = document.getElementById('download-btn');
 
     // Google Drive download link
-    const downloadLink = 'https://drive.google.com/file/d/1xGrjF2k4WMWFgD_JNjhxy7Tsc_rxh0Nz/view?usp=drive_link';
+    const downloadLink = 'https://drive.google.com/drive/folders/1qGMU4zpgxr1dlGVtvgLRKt6VyPjS8jBe?usp=drive_link';
 
     downloadBtn.addEventListener('click', (e) => {
         e.preventDefault();

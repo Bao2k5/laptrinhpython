@@ -1,78 +1,90 @@
-# Hướng Dẫn Deploy Website Lên Render
+# Hướng Dẫn Deploy Đầy Đủ
 
-## Bước 1: Push Code Lên GitHub
+## 🎯 Bạn Cần Deploy 2 Services
 
-\`\`\`bash
-git add website/
-git commit -m "Add landing page website"
-git push origin branch-PY
-\`\`\`
+### 1. API Server (Đã có - laptrinthpython-3)
+- ✅ Đã deploy tại: https://laptrinthpython-3.onrender.com
+- ✅ Serve API cho leaderboard
+- ✅ Kết nối MongoDB
+- ⚠️ **Đang redeploy** sau khi fix build.py
 
-## Bước 2: Tạo Static Site Trên Render
+### 2. Website (Cần tạo mới)
+- ❌ Chưa deploy
+- 📁 Code ở folder `website/`
+- 🎯 Sẽ là trang chủ để tải game
 
-1. Vào https://dashboard.render.com/
-2. Nhấn **New** → **Static Site**
-3. Connect repository: `Bao2k5/laptrinhpython`
-4. Cấu hình:
-   - **Name**: `flappybird-website`
-   - **Branch**: `branch-PY`
-   - **Root Directory**: Leave empty
-   - **Build Command**: Leave empty
-   - **Publish Directory**: `website`
-5. Nhấn **Create Static Site**
+---
 
-## Bước 3: Đợi Deploy
+## 🚀 Cách Deploy Website (Static Site)
 
-Render sẽ tự động deploy website. Sau 1-2 phút, bạn sẽ có link:
+### Bước 1: Vào Render Dashboard
+https://dashboard.render.com/
 
-\`\`\`
-https://flappybird-website.onrender.com
-\`\`\`
+### Bước 2: Tạo Static Site Mới
+1. Nhấn **New +** (góc trên bên phải)
+2. Chọn **Static Site**
 
-## Bước 4: Test Website
+### Bước 3: Connect Repository
+1. Chọn repository: **Bao2k5/laptrinhpython**
+2. Nhấn **Connect**
 
-Vào link và kiểm tra:
-- ✅ Hero section hiển thị đúng
-- ✅ Stats load từ API
-- ✅ Leaderboard hiển thị top 10
-- ✅ Download button hoạt động
+### Bước 4: Cấu Hình
+Điền thông tin sau:
 
-## Lưu Ý
+- **Name**: `flappybird-website` (hoặc tên bạn thích)
+- **Branch**: `branch-PY`
+- **Root Directory**: (để trống)
+- **Build Command**: (để trống)
+- **Publish Directory**: `website`
 
-### CORS Issue
-Nếu leaderboard không load, cần thêm CORS headers vào server API:
+### Bước 5: Deploy
+1. Nhấn **Create Static Site**
+2. Đợi 1-2 phút
+3. Website sẽ live tại: `https://flappybird-website.onrender.com`
 
-Trong `app.py`:
-\`\`\`python
-from flask_cors import CORS
+---
 
-app = Flask(__name__)
-CORS(app)  # Enable CORS
-\`\`\`
+## ✅ Sau Khi Deploy Xong
 
-Và thêm vào `requirements.txt`:
-\`\`\`
-flask-cors
-\`\`\`
+Bạn sẽ có:
 
-### Custom Domain (Optional)
-Sau khi deploy, bạn có thể:
-1. Settings → Custom Domain
-2. Thêm domain của bạn
-3. Cập nhật DNS
+1. **API Server**: https://laptrinthpython-3.onrender.com
+   - Serve leaderboard
+   - Lưu điểm
 
-## Troubleshooting
+2. **Website**: https://flappybird-website.onrender.com
+   - Trang chủ game
+   - Download button
+   - Bảng xếp hạng
 
-### Website không load
-- Kiểm tra Publish Directory = `website`
-- Kiểm tra file `index.html` có trong `website/`
+---
 
-### Leaderboard không hiển thị
-- Kiểm tra API server đang chạy
-- Kiểm tra CORS đã enable
-- Mở DevTools → Console để xem lỗi
+## 🔧 Troubleshooting
 
-### Download button không hoạt động
-- Cập nhật link trong `js/main.js`
-- Upload .exe lên Google Drive
-- Lấy link chia sẻ
+### API Server Build Failed
+- ✅ Đã fix - Render đang redeploy
+- Đợi vài phút để deploy xong
+
+### Website Không Hiển Thị
+- Kiểm tra **Publish Directory** = `website`
+- Kiểm tra **Branch** = `branch-PY`
+
+### Leaderboard Không Load
+- Đợi API server deploy xong
+- Kiểm tra API URL trong `website/js/main.js`
+
+---
+
+## 📋 Checklist
+
+- [x] API Server đã có
+- [x] Fix build.py issue
+- [x] Push code lên GitHub
+- [ ] Tạo Static Site cho website
+- [ ] Deploy website
+- [ ] Test tất cả tính năng
+- [ ] Chia sẻ link!
+
+---
+
+**Bây giờ hãy tạo Static Site theo hướng dẫn trên!** 🚀
