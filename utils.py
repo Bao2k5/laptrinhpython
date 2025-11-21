@@ -86,3 +86,29 @@ def send_score_to_server(player_name, score, url=None):
         return True
     except Exception:
         return False
+
+def web_login(username, password):
+    """Login via API (browser only)"""
+    try:
+        from js import XMLHttpRequest, JSON
+        xhr = XMLHttpRequest.new()
+        xhr.open("POST", "/api/login", False) # Synchronous for simplicity in game loop
+        xhr.setRequestHeader("Content-Type", "application/json")
+        data = JSON.stringify({"username": username, "password": password})
+        xhr.send(data)
+        return xhr.status == 200
+    except Exception:
+        return False
+
+def web_register(username, password):
+    """Register via API (browser only)"""
+    try:
+        from js import XMLHttpRequest, JSON
+        xhr = XMLHttpRequest.new()
+        xhr.open("POST", "/api/register", False)
+        xhr.setRequestHeader("Content-Type", "application/json")
+        data = JSON.stringify({"username": username, "password": password})
+        xhr.send(data)
+        return xhr.status == 200
+    except Exception:
+        return False

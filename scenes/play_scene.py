@@ -51,6 +51,9 @@ class PlayScene:
         level = 1
         score_to_level = 10
 
+        powerups = []
+        shield_timer = 0
+
         clock = pygame.time.Clock()
 
         while True:
@@ -90,27 +93,58 @@ class PlayScene:
             pipe_top = pygame.Rect(pipe_x, 0, pipe_width, pipe_h)
             pipe_bottom = pygame.Rect(pipe_x, pipe_h + pipe_gap, pipe_width, HEIGHT)
 
+            # Powerups Logic
+            if random.randint(0, 300) == 0: # Spawn chance
+                p_type = random.choice(['shield', 'magnet'])
+                powerups.append(PowerUp(WIDTH, random.randint(50, 450), p_type))
+
+            for p in powerups[:]:
+                p.move(pipe_speed)
+                if p.rect.right < 0:
+                    powerups.remove(p)
+                elif bird.colliderect(p.rect):
+                    if p.type == 'shield':
+                        shield_timer = 300 # 5 seconds (60fps)
+                    elif p.type == 'magnet':
+                        score += 5 # Bonus points for now
+                    powerups.remove(p)
+
             # -------- COLLISION --------
             if (bird.colliderect(pipe_top) or
                 bird.colliderect(pipe_bottom) or
                 bird.y < 0 or bird.y > HEIGHT):
 
-                if self.hit_sound:
-                    self.hit_sound.play()
+                if shield_timer > 0:
+                    # Bounce back slightly or just ignore?
+                    # Let's just ignore collision but maybe bounce bird back to center y?
+                    # Or just do nothing (pass through)
+                    pass 
+                else:
+                    if self.hit_sound:
+                        self.hit_sound.play()
 
-                # Lưu điểm vào Mongo
-                save_score(self.player_name, score)
+                    # Lưu điểm vào Mongo
+                    save_score(self.player_name, score)
 
-                return "gameover", {
-                    "player": self.player_name,
-                    "score": score
-                }
+                    return "gameover", {
+                        "player": self.player_name,
+                        "score": score
+                    }
 
             # -------- DRAW --------
             self.screen.blit(self.bg, (0, 0))
             self.screen.blit(self.pipe_top_img, (pipe_x, pipe_h - 500))
             self.screen.blit(self.pipe_img, (pipe_x, pipe_h + pipe_gap))
             self.screen.blit(self.bird_img, bird)
+
+            # Draw Powerups
+            for p in powerups:
+                p.draw(self.screen)
+
+            # Draw Shield Effect
+            if shield_timer > 0:
+                pygame.draw.circle(self.screen, (0, 255, 255), bird.center, 30, 3)
+                shield_timer -= 1
 
             score_text = self.font.render(f"Score: {score}", True, (255, 255, 255))
             self.screen.blit(score_text, (10, 10))
@@ -122,3 +156,17 @@ class PlayScene:
             self.screen.blit(player_text, (260, 10))
 
             pygame.display.update()
+
+
+class PowerUp:
+    def __init__(self, x, y, type_name):
+        self.rect = pygame.Rect(x, y, 30, 30)
+        self.type = type_name # 'shield', 'magnet'
+        self.img = pygame.image.load(asset_path('assets', f'{type_name}.png')).convert_alpha()
+        self.img = pygame.transform.scale(self.img, (30, 30))
+
+    def move(self, speed):
+        self.rect.x -= speed
+
+    def draw(self, screen):
+        screen.blit(self.img, self.rect)

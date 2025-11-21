@@ -30,5 +30,25 @@ def post_score():
         return jsonify({"status": "success"}), 200
     return jsonify({"error": "Invalid data"}), 400
 
+@app.route('/api/login', methods=['POST'])
+def login():
+    data = request.json
+    username = data.get('username')
+    password = data.get('password')
+    from database import check_login
+    if check_login(username, password):
+        return jsonify({"status": "success"}), 200
+    return jsonify({"error": "Invalid credentials"}), 401
+
+@app.route('/api/register', methods=['POST'])
+def register():
+    data = request.json
+    username = data.get('username')
+    password = data.get('password')
+    from database import create_user
+    if create_user(username, password):
+        return jsonify({"status": "success"}), 200
+    return jsonify({"error": "User already exists"}), 400
+
 if __name__ == '__main__':
     app.run(debug=True)
