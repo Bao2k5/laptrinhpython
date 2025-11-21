@@ -1,4 +1,4 @@
 flask
 pygame
-pygbag>=2.0
+pygbag
 gunicorn>=20.0
