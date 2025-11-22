@@ -213,7 +213,7 @@ class PlayScene:
                         print(f"Game Over! Score: {score}")
                         saved = False
                         if self.api:
-                            saved = self.api.save_score(self.player_name, score)
+                            saved = self.api.submit_score(self.player_name, score)
                         if not saved and self.storage:
                             self.storage.save_pending_score(self.player_name, score)
 
