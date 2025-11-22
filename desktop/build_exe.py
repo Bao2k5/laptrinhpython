@@ -14,15 +14,20 @@ def build_exe():
     print("BUILDING FLAPPY BIRD .EXE")
     print("="*50)
     
-    # Kiểm tra file main.py tồn tại
-    if not os.path.exists("main.py"):
-        print("✗ Error: main.py not found!")
-        sys.exit(1)
+    # Xác định đường dẫn main.py
+    main_path = "main.py"
+    if not os.path.exists(main_path):
+        # Thử tìm trong thư mục desktop nếu chạy từ root
+        if os.path.exists("desktop/main.py"):
+            main_path = "desktop/main.py"
+        else:
+            print(f"[ERROR] {main_path} not found!")
+            sys.exit(1)
     
     # PyInstaller arguments
     args = [
-        'main.py',
-        '--name=FlappyBird',
+        main_path,
+        '--name=FlappyBird_v2.4',
         '--onefile',  # Tạo 1 file .exe duy nhất
         '--windowed',  # Không hiện console window
         '--add-data=scenes;scenes',  # Thêm scenes folder
@@ -44,12 +49,12 @@ def build_exe():
     try:
         PyInstaller.__main__.run(args)
         print("\n" + "="*50)
-        print("✓ BUILD SUCCESSFUL!")
+        print("[SUCCESS] BUILD SUCCESSFUL!")
         print("="*50)
         print(f"\nFile .exe được tạo tại: dist/FlappyBird.exe")
         print("Bạn có thể chạy file này trên bất kỳ máy Windows nào!")
     except Exception as e:
-        print(f"\n✗ Build failed: {e}")
+        print(f"\n[ERROR] Build failed: {e}")
         sys.exit(1)
 
 

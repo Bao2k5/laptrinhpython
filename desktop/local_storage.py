@@ -7,8 +7,18 @@ from datetime import datetime
 class LocalStorage:
     """Quản lý lưu trữ điểm local khi offline"""
     
-    def __init__(self, filename: str = "game_data.json"):
-        self.filename = filename
+    def __init__(self, filename: str = "game_data.dat"):
+        # Use AppData folder
+        app_data = os.getenv('LOCALAPPDATA')
+        if not app_data:
+            app_data = os.path.expanduser('~')
+            
+        self.save_dir = os.path.join(app_data, "FlappyBirdDesktop")
+        if not os.path.exists(self.save_dir):
+            os.makedirs(self.save_dir)
+            
+        self.filepath = os.path.join(self.save_dir, filename)
+        
         self.default_data = {
             "username": "Guest",
             "high_score": 0,
@@ -25,26 +35,45 @@ class LocalStorage:
         }
         self.data = self.load()
     
+    def _obfuscate(self, data: str) -> str:
+        """Simple obfuscation using base64"""
+        return base64.b64encode(data.encode()).decode()
+    
+    def _deobfuscate(self, data: str) -> str:
+        """De-obfuscate data"""
+        try:
+            return base64.b64decode(data.encode()).decode()
+        except:
+            return "{}"
+
     def load(self) -> Dict:
-        """Load dữ liệu từ file JSON"""
-        if os.path.exists(self.filename):
+        """Load dữ liệu từ file đã mã hóa"""
+        if os.path.exists(self.filepath):
             try:
-                with open(self.filename, 'r', encoding='utf-8') as f:
-                    loaded = json.load(f)
+                with open(self.filepath, 'r', encoding='utf-8') as f:
+                    content = f.read()
+                    # Try to deobfuscate
+                    json_str = self._deobfuscate(content)
+                    loaded = json.loads(json_str)
+                    
                     # Merge with default to ensure all keys exist
                     for k, v in self.default_data.items():
                         if k not in loaded:
                             loaded[k] = v
                     return loaded
-            except:
+            except Exception as e:
+                print(f"Error loading save: {e}")
                 return self.default_data.copy()
         return self.default_data.copy()
     
     def save(self):
-        """Lưu dữ liệu vào file JSON"""
+        """Lưu dữ liệu đã mã hóa"""
         try:
-            with open(self.filename, 'w', encoding='utf-8') as f:
-                json.dump(self.data, f, indent=2, ensure_ascii=False)
+            json_str = json.dumps(self.data, ensure_ascii=False)
+            obfuscated = self._obfuscate(json_str)
+            
+            with open(self.filepath, 'w', encoding='utf-8') as f:
+                f.write(obfuscated)
         except Exception as e:
             print(f"Error saving data: {e}")
     

@@ -67,4 +67,4 @@ def get_top_scores(limit=10):
             pass
         return []
 
-    return list(scores_col.find().sort("score", -1).limit(limit))
+    return list(scores_col.find({}, {"_id": 0}).sort("score", -1).limit(limit))

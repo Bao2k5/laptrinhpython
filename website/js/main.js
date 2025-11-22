@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // --- API FUNCTIONS ---
-const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000/api' : '/api';
+const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000/api' : 'https://flappybird-duatop.onrender.com/api';
 
 async function fetchStats() {
     try {

@@ -29,9 +29,16 @@ class LoginScene:
         error_msg = ""
         remember_me = False
         
-        # Get saved accounts
+        # Load saved accounts
         saved_accounts = self.storage.get_saved_accounts()
-        selected_account = None
+        # Auto-fill first saved account if any and fields are empty
+        if saved_accounts and not username and not password:
+            first_acc = saved_accounts[0]
+            creds = self.storage.get_credentials(first_acc)
+            if creds:
+                username = creds["username"]
+                password = creds["password"]
+                remember_me = True
 
         while True:
             await asyncio.sleep(0)
