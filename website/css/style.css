@@ -835,3 +835,192 @@ footer {
         opacity: 0;
     }
 }
+/* ========================================
+   PREMIUM LANDING PAGE UPGRADES
+   ======================================== */
+
+/* --- ANIMATED GRADIENT BACKGROUND --- */
+@keyframes gradient-shift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.bg-animation {
+    background: linear-gradient(
+        -45deg,
+        #0f172a,
+        #1e293b,
+        #0f172a,
+        #1a2332
+    );
+    background-size: 400% 400%;
+    animation: gradient-shift 15s ease infinite;
+}
+
+/* --- ENHANCED GLASSMORPHISM --- */
+.leaderboard-wrapper,
+.feature-card,
+.card-glass {
+    background: rgba(30, 41, 59, 0.4) !important;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+/* --- 3D CARD TILT EFFECT --- */
+.feature-card {
+    transform-style: preserve-3d;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    will-change: transform;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px) rotateX(5deg);
+    box-shadow: 0 20px 60px rgba(16, 185, 129, 0.3);
+}
+
+.feature-card .icon-box {
+    transition: transform 0.3s ease;
+}
+
+.feature-card:hover .icon-box {
+    transform: translateZ(20px) scale(1.1);
+}
+
+/* --- SCROLL REVEAL ANIMATIONS --- */
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.scroll-reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Stagger delays for multiple items */
+.scroll-reveal:nth-child(1) { transition-delay: 0.1s; }
+.scroll-reveal:nth-child(2) { transition-delay: 0.2s; }
+.scroll-reveal:nth-child(3) { transition-delay: 0.3s; }
+.scroll-reveal:nth-child(4) { transition-delay: 0.4s; }
+
+/* --- ENHANCED BUTTON EFFECTS --- */
+.btn-primary,
+.btn-secondary,
+.btn-download-large {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-primary::after,
+.btn-secondary::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn-primary:hover::after,
+.btn-secondary:hover::after {
+    width: 300px;
+    height: 300px;
+}
+
+.btn-primary:hover,
+.btn-download-large:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(16, 185, 129, 0.4);
+}
+
+/* --- FLOATING ANIMATION --- */
+@keyframes float-gentle {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-15px) rotate(2deg);
+    }
+}
+
+.bird-float {
+    animation: float-gentle 4s ease-in-out infinite;
+}
+
+/* --- TEXT GRADIENT ANIMATION --- */
+@keyframes gradient-text {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.text-gradient {
+    background: linear-gradient(
+        90deg,
+        #10b981,
+        #3b82f6,
+        #10b981
+    );
+    background-size: 200% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradient-text 3s ease infinite;
+}
+
+/* --- SMOOTH SCROLL BEHAVIOR --- */
+html {
+    scroll-behavior: smooth;
+}
+
+/* --- ENHANCED SHADOWS --- */
+.navbar {
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+}
+
+.leaderboard-wrapper {
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+/* --- ICON HOVER ANIMATIONS --- */
+.icon-box {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.feature-card:hover .icon-box {
+    transform: scale(1.15) rotate(5deg);
+}
+
+/* --- PERFORMANCE OPTIMIZATIONS --- */
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.feature-card,
+.btn-primary,
+.btn-secondary,
+.card-glass {
+    will-change: transform;
+}
