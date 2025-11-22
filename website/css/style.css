@@ -665,28 +665,32 @@ footer {
         text-align: center;
     }
 }
+
 /* --- ENHANCED VISUAL EFFECTS --- */
 
 /* Top 1 Glow Effect */
 @keyframes glow-pulse {
-    0%, 100% {
+
+    0%,
+    100% {
         box-shadow: 0 0 5px rgba(255, 215, 0, 0.5),
-                    0 0 10px rgba(255, 215, 0, 0.3),
-                    0 0 15px rgba(255, 215, 0, 0.2);
+            0 0 10px rgba(255, 215, 0, 0.3),
+            0 0 15px rgba(255, 215, 0, 0.2);
     }
+
     50% {
         box-shadow: 0 0 10px rgba(255, 215, 0, 0.8),
-                    0 0 20px rgba(255, 215, 0, 0.5),
-                    0 0 30px rgba(255, 215, 0, 0.3);
+            0 0 20px rgba(255, 215, 0, 0.5),
+            0 0 30px rgba(255, 215, 0, 0.3);
     }
 }
 
 .leaderboard-table tbody tr:first-child {
     animation: glow-pulse 2s ease-in-out infinite;
-    background: linear-gradient(90deg, 
-        rgba(255, 215, 0, 0.05) 0%, 
-        rgba(255, 215, 0, 0.1) 50%, 
-        rgba(255, 215, 0, 0.05) 100%);
+    background: linear-gradient(90deg,
+            rgba(255, 215, 0, 0.05) 0%,
+            rgba(255, 215, 0, 0.1) 50%,
+            rgba(255, 215, 0, 0.05) 100%);
 }
 
 /* Shimmer Effect for Download Button */
@@ -694,6 +698,7 @@ footer {
     0% {
         background-position: -1000px 0;
     }
+
     100% {
         background-position: 1000px 0;
     }
@@ -711,20 +716,21 @@ footer {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, 0.3),
-        transparent
-    );
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, 0.3),
+            transparent);
     animation: shimmer 3s infinite;
 }
 
 /* Bounce Animation for Primary Button */
 @keyframes bounce-gentle {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: translateY(0);
     }
+
     50% {
         transform: translateY(-5px);
     }
@@ -763,6 +769,7 @@ footer {
         opacity: 0;
         transform: translateY(30px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -789,25 +796,42 @@ footer {
     animation-delay: 0.4s;
 }
 
-/* --- MOUSE RIPPLE EFFECT --- */
-.ripple {
+/* --- SMOOTH CURSOR TRAIL EFFECT --- */
+.cursor-glow {
     position: fixed;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
-    border: 2px solid rgba(16, 185, 129, 0.5);
+    background: radial-gradient(circle,
+            rgba(16, 185, 129, 0.8) 0%,
+            rgba(16, 185, 129, 0.4) 40%,
+            transparent 70%);
     pointer-events: none;
-    animation: ripple-animation 1s ease-out forwards;
     z-index: 9999;
+    transition: transform 0.15s ease-out;
+    filter: blur(8px);
+    mix-blend-mode: screen;
 }
 
-@keyframes ripple-animation {
+.cursor-trail {
+    position: fixed;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(16, 185, 129, 0.6);
+    pointer-events: none;
+    z-index: 9998;
+    animation: trail-fade 0.6s ease-out forwards;
+}
+
+@keyframes trail-fade {
     0% {
-        width: 0;
-        height: 0;
+        transform: scale(1);
         opacity: 1;
     }
+
     100% {
-        width: 100px;
-        height: 100px;
+        transform: scale(0.5);
         opacity: 0;
     }
 }
