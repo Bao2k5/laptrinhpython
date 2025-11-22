@@ -1,4 +1,5 @@
 import pygame
+import asyncio
 from game_utils import asset_path, load_sound
 
 WIDTH, HEIGHT = 500, 600
