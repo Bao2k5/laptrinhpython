@@ -5,7 +5,7 @@ from typing import List, Dict, Optional
 class APIClient:
     """Client để kết nối với API server và sync điểm"""
     
-    def __init__(self, base_url: str = "https://laptrinthpython-3.onrender.com"):
+    def __init__(self, base_url: str = "https://flappybird-duatop.onrender.com"):
         self.base_url = base_url
         self.is_online = False
         self.timeout = 5  # seconds

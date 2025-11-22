@@ -85,5 +85,5 @@ const API_BASE_URL = 'https://your-server.com';
 ## 🔗 Links
 
 - Game Desktop: `desktop/dist/FlappyBird.exe`
-- API Server: https://laptrinthpython-3.onrender.com
+- API Server: https://flappybird-duatop.onrender.com
 - GitHub: https://github.com/Bao2k5/laptrinhpython
