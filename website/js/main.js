@@ -1,145 +1,106 @@
-// API Configuration
-const API_BASE_URL = 'https://flappybird-duatop.onrender.com';
-
-// Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
-    loadStatistics();
-    loadLeaderboard();
-    setupDownloadButton();
+    // Initial load
+    fetchStats();
+    fetchLeaderboard();
+
+    // Auto refresh leaderboard every 30s
+    setInterval(fetchLeaderboard, 30000);
 });
 
-// Load Statistics
-async function loadStatistics() {
+// --- API FUNCTIONS ---
+const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000/api' : '/api';
+
+async function fetchStats() {
     try {
-        const response = await fetch(`${API_BASE_URL}/api/scores`);
-        const scores = await response.json();
+        const response = await fetch(`${API_URL}/stats`);
+        const data = await response.json();
 
-        if (scores && scores.length > 0) {
-            // Calculate statistics
-            const totalPlayers = new Set(scores.map(s => s.username)).size;
-            const highestScore = Math.max(...scores.map(s => s.score));
-            const totalGames = scores.length;
+        animateValue("total-players", 0, data.total_players, 2000);
+        animateValue("total-games", 0, data.total_games, 2000);
 
-            // Animate numbers
-            animateNumber('total-players', totalPlayers);
-            animateNumber('highest-score', highestScore);
-            animateNumber('total-games', totalGames);
-        }
+        // Update highest score separately (no animation for now or simple text)
+        document.getElementById('highest-score').textContent = data.highest_score;
+
     } catch (error) {
-        console.error('Error loading statistics:', error);
-        document.getElementById('total-players').textContent = '---';
-        document.getElementById('highest-score').textContent = '---';
-        document.getElementById('total-games').textContent = '---';
+        console.error('Error fetching stats:', error);
     }
 }
 
-// Load Leaderboard
-async function loadLeaderboard() {
-    const leaderboardList = document.getElementById('leaderboard-list');
-
+async function fetchLeaderboard() {
     try {
-        const response = await fetch(`${API_BASE_URL}/api/scores`);
-        const scores = await response.json();
-
-        if (!scores || scores.length === 0) {
-            leaderboardList.innerHTML = '<div class="loading">Chưa có người chơi nào</div>';
-            return;
-        }
-
-        // Get top 10 unique players by highest score
-        const playerBest = {};
-        scores.forEach(score => {
-            if (!playerBest[score.username] || playerBest[score.username] < score.score) {
-                playerBest[score.username] = score.score;
-            }
-        });
-
-        const topPlayers = Object.entries(playerBest)
-            .map(([username, score]) => ({ username, score }))
-            .sort((a, b) => b.score - a.score)
-            .slice(0, 10);
-
-        // Render leaderboard
-        leaderboardList.innerHTML = topPlayers.map((player, index) => {
-            const rank = index + 1;
-            const rankClass = rank <= 3 ? `rank-${rank}` : '';
-            const medal = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : '';
-
-            return `
-                <div class="leaderboard-item ${rankClass}">
-                    <span class="rank-col">${medal} #${rank}</span>
-                    <span class="name-col">${escapeHtml(player.username)}</span>
-                    <span class="score-col">${player.score.toLocaleString()}</span>
-                </div>
-            `;
-        }).join('');
-
+        const response = await fetch(`${API_URL}/scores`);
+        const data = await response.json();
+        renderLeaderboard(data);
     } catch (error) {
-        console.error('Error loading leaderboard:', error);
-        leaderboardList.innerHTML = '<div class="loading">Không thể tải bảng xếp hạng</div>';
+        console.error('Error fetching leaderboard:', error);
+        document.getElementById('leaderboard-list').innerHTML = `
+            <tr><td colspan="4" class="text-center">Không thể tải bảng xếp hạng</td></tr>
+        `;
     }
 }
 
-// Animate Number
-function animateNumber(elementId, targetValue) {
-    const element = document.getElementById(elementId);
-    const duration = 2000; // 2 seconds
-    const steps = 60;
-    const stepValue = targetValue / steps;
-    let currentValue = 0;
-    let currentStep = 0;
+// --- UI FUNCTIONS ---
 
-    const interval = setInterval(() => {
-        currentStep++;
-        currentValue += stepValue;
+function renderLeaderboard(data) {
+    const list = document.getElementById('leaderboard-list');
+    list.innerHTML = '';
 
-        if (currentStep >= steps) {
-            element.textContent = targetValue.toLocaleString();
-            clearInterval(interval);
-        } else {
-            element.textContent = Math.floor(currentValue).toLocaleString();
+    if (data.length === 0) {
+        list.innerHTML = '<tr><td colspan="4" style="text-align:center">Chưa có dữ liệu</td></tr>';
+        return;
+    }
+
+    data.forEach((player, index) => {
+        const rank = index + 1;
+        let rankClass = '';
+        let medal = '';
+
+        if (rank === 1) {
+            rankClass = 'rank-1';
+            medal = '<i class="fa-solid fa-medal" style="color: #FFD700;"></i>';
+        } else if (rank === 2) {
+            rankClass = 'rank-2';
+            medal = '<i class="fa-solid fa-medal" style="color: #C0C0C0;"></i>';
+        } else if (rank === 3) {
+            rankClass = 'rank-3';
+            medal = '<i class="fa-solid fa-medal" style="color: #CD7F32;"></i>';
         }
-    }, duration / steps);
-}
 
-// Setup Download Button
-function setupDownloadButton() {
-    const downloadBtn = document.getElementById('download-btn');
-
-    // Google Drive direct download link - v1.5 Final (Fixed asset_path bug)
-    const downloadLink = 'https://drive.google.com/uc?export=download&id=18mTEEoCEyEeBIoAKdpzJZ_adN8kdPI8_';
-
-    downloadBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-
-        // Open download link in new tab
-        window.open(downloadLink, '_blank');
-
-        // Optional: Show success message
-        console.log('Opening download link...');
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td class="${rankClass}">#${rank}</td>
+            <td style="font-weight: 600;">${player.username}</td>
+            <td style="font-family: 'Press Start 2P'; font-size: 0.8rem; color: var(--primary);">${player.score}</td>
+            <td>${medal}</td>
+        `;
+        list.appendChild(row);
     });
 }
 
-// Escape HTML to prevent XSS
-function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-}
+// --- ANIMATION UTILS ---
+function animateValue(id, start, end, duration) {
+    if (start === end) return;
+    const obj = document.getElementById(id);
+    const range = end - start;
+    const minTimer = 50;
+    let stepTime = Math.abs(Math.floor(duration / range));
 
-// Auto-refresh leaderboard every 30 seconds
-setInterval(loadLeaderboard, 30000);
+    stepTime = Math.max(stepTime, minTimer);
 
-// Smooth scroll for anchor links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
+    let startTime = new Date().getTime();
+    let endTime = startTime + duration;
+    let timer;
+
+    function run() {
+        let now = new Date().getTime();
+        let remaining = Math.max((endTime - now) / duration, 0);
+        let value = Math.round(end - (remaining * range));
+        obj.innerHTML = value;
+        if (value == end) {
+            clearInterval(timer);
         }
-    });
-});
+    }
+
+    timer = setInterval(run, stepTime);
+    run();
+}

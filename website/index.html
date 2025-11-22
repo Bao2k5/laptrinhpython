@@ -4,168 +4,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flappy Bird - Đua Top</title>
+    <title>Flappy Bird - Desktop Edition</title>
     <meta name="description"
         content="Tải game Flappy Bird miễn phí. Chơi offline, đua top online với hàng nghìn người chơi!">
+
+    <!-- CSS -->
     <link rel="stylesheet" href="css/style.css">
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@400;700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Press+Start+2P&display=swap"
         rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
+    <!-- Background Animation -->
+    <div class="bg-animation">
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">FLAPPY<span class="highlight">BIRD</span></a>
+            <ul class="nav-links">
+                <li><a href="#features">Tính Năng</a></li>
+                <li><a href="#leaderboard">Bảng Xếp Hạng</a></li>
+                <li><a href="#download" class="btn-nav">Tải Game</a></li>
+            </ul>
+        </div>
+    </nav>
+
     <!-- Hero Section -->
     <section class="hero">
-        <div class="hero-overlay"></div>
-        <div class="container">
+        <div class="container hero-container">
             <div class="hero-content">
-                <h1 class="game-title">🐦 FLAPPY BIRD</h1>
-                <p class="game-slogan">Chơi Offline - Đua Top Online!</p>
+                <div class="badge">🔥 Version 2.1 Available</div>
+                <h1 class="game-title">CHƠI OFFLINE<br><span class="text-gradient">ĐUA TOP ONLINE</span></h1>
+                <p class="game-desc">Trải nghiệm Flappy Bird phiên bản Desktop cực mượt. Tự động lưu điểm, bảng xếp hạng
+                    realtime và nhiều skin độc đáo.</p>
 
-                <div class="stats-bar">
-                    <div class="stat-item">
-                        <span class="stat-number" id="total-players">---</span>
+                <div class="hero-btns">
+                    <a href="#download" class="btn-primary">
+                        <i class="fa-brands fa-windows"></i> Tải Cho Windows
+                    </a>
+                    <a href="#leaderboard" class="btn-secondary">
+                        <i class="fa-solid fa-trophy"></i> Xem Xếp Hạng
+                    </a>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="stat-box">
+                        <span class="stat-num" id="total-players">0</span>
                         <span class="stat-label">Người Chơi</span>
                     </div>
-                    <div class="stat-item">
-                        <span class="stat-number" id="highest-score">---</span>
-                        <span class="stat-label">Điểm Cao Nhất</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number" id="total-games">---</span>
+                    <div class="stat-divider"></div>
+                    <div class="stat-box">
+                        <span class="stat-num" id="total-games">0</span>
                         <span class="stat-label">Lượt Chơi</span>
                     </div>
                 </div>
+            </div>
 
-                <a href="#download" class="btn-download">
-                    📥 TẢI GAME NGAY
-                    <span class="btn-subtitle">Miễn phí 100% - Windows</span>
-                </a>
-
-                <div class="features-quick">
-                    <div class="feature-badge">✅ Chơi Offline</div>
-                    <div class="feature-badge">🏆 Bảng Xếp Hạng</div>
-                    <div class="feature-badge">💾 Auto Sync</div>
+            <div class="hero-visual">
+                <div class="bird-float">
+                    <img src="https://raw.githubusercontent.com/samuelcust/flappy-bird-assets/master/sprites/yellowbird-midflap.png"
+                        alt="Flappy Bird" class="bird-img">
+                </div>
+                <div class="card-glass">
+                    <div class="card-header">
+                        <i class="fa-solid fa-crown text-gold"></i> Top Player
+                    </div>
+                    <div class="card-body">
+                        <h3 id="highest-score">---</h3>
+                        <p>Điểm Cao Nhất</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Features Section -->
-    <section class="features">
+    <section id="features" class="features">
         <div class="container">
-            <h2 class="section-title">🎮 Tính Năng Nổi Bật</h2>
+            <div class="section-header">
+                <h2 class="section-title">Tại Sao Nên Chơi?</h2>
+                <p class="section-subtitle">Không chỉ là game, đây là đấu trường!</p>
+            </div>
+
             <div class="features-grid">
                 <div class="feature-card">
-                    <div class="feature-icon">🎮</div>
+                    <div class="icon-box color-1">
+                        <i class="fa-solid fa-wifi"></i>
+                    </div>
                     <h3>Chơi Offline</h3>
-                    <p>Tải 1 lần, chơi mãi không cần internet. Giống Subway Surfers!</p>
+                    <p>Mất mạng? Không sao! Game vẫn chạy mượt mà và lưu điểm vào máy.</p>
                 </div>
+
                 <div class="feature-card">
-                    <div class="feature-icon">🏆</div>
-                    <h3>Bảng Xếp Hạng</h3>
-                    <p>Đua top với hàng nghìn người chơi trên toàn quốc!</p>
+                    <div class="icon-box color-2">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                    </div>
+                    <h3>Auto Sync</h3>
+                    <p>Có mạng là điểm tự động bay lên server. Không lo mất thành tích.</p>
                 </div>
+
                 <div class="feature-card">
-                    <div class="feature-icon">💾</div>
-                    <h3>Auto Sync Điểm</h3>
-                    <p>Khi có internet, điểm tự động đồng bộ lên server</p>
+                    <div class="icon-box color-3">
+                        <i class="fa-solid fa-ranking-star"></i>
+                    </div>
+                    <h3>Realtime Rank</h3>
+                    <p>Cạnh tranh trực tiếp với hàng nghìn người chơi khác trên bảng xếp hạng.</p>
                 </div>
+
                 <div class="feature-card">
-                    <div class="feature-icon">🆓</div>
-                    <h3>Miễn Phí 100%</h3>
-                    <p>Không quảng cáo, không mua gì thêm. Hoàn toàn miễn phí!</p>
+                    <div class="icon-box color-4">
+                        <i class="fa-solid fa-shirt"></i>
+                    </div>
+                    <h3>Skin Độc Đáo</h3>
+                    <p>Cày điểm đổi skin. Thể hiện cá tính với bộ sưu tập chim đa dạng.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Leaderboard Section -->
-    <section class="leaderboard">
+    <section id="leaderboard" class="leaderboard">
         <div class="container">
-            <h2 class="section-title">🏆 Bảng Xếp Hạng</h2>
-            <p class="section-subtitle">Top 10 cao thủ Flappy Bird</p>
-
-            <div class="leaderboard-container">
-                <div class="leaderboard-header">
-                    <span class="rank-col">Hạng</span>
-                    <span class="name-col">Tên</span>
-                    <span class="score-col">Điểm</span>
+            <div class="leaderboard-wrapper">
+                <div class="leaderboard-header-box">
+                    <h2 class="section-title"><i class="fa-solid fa-trophy text-gold"></i> Bảng Xếp Hạng</h2>
+                    <p>Top 10 Cao Thủ Flappy Bird</p>
                 </div>
-                <div id="leaderboard-list" class="leaderboard-list">
-                    <!-- Loaded by JavaScript -->
-                    <div class="loading">Đang tải bảng xếp hạng...</div>
+
+                <div class="leaderboard-table-container">
+                    <table class="leaderboard-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Người Chơi</th>
+                                <th>Điểm Số</th>
+                                <th>Huy Chương</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboard-list">
+                            <!-- JS will populate this -->
+                            <tr>
+                                <td colspan="4" class="loading-text">
+                                    <i class="fa-solid fa-circle-notch fa-spin"></i> Đang tải dữ liệu...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="leaderboard-footer">
+                    <p><i class="fa-solid fa-rotate"></i> Cập nhật tự động mỗi 30s</p>
                 </div>
             </div>
-
-            <p class="leaderboard-note">
-                💡 Bảng xếp hạng cập nhật realtime từ server
-            </p>
         </div>
     </section>
 
     <!-- Download Section -->
-    <section class="download" id="download">
+    <section id="download" class="download">
         <div class="container">
-            <h2 class="section-title">📥 Tải Game</h2>
-            <div class="download-box">
-                <div class="download-info">
-                    <h3>Flappy Bird Desktop</h3>
-                    <p class="version">Phiên bản: 1.0.0</p>
-                    <p class="file-size">Dung lượng: ~50 MB</p>
-                    <p class="platform">Hệ điều hành: Windows 7/8/10/11</p>
-                </div>
+            <div class="download-card">
+                <div class="download-content">
+                    <h2>Sẵn Sàng Thử Thách?</h2>
+                    <p>Tải game ngay và bắt đầu hành trình chinh phục top 1!</p>
 
-                <a href="#" class="btn-download-main" id="download-btn">
-                    📥 TẢI GAME
-                    <span class="btn-subtitle">FlappyBird.exe</span>
-                </a>
+                    <div class="download-specs">
+                        <div class="spec-item"><i class="fa-brands fa-windows"></i> Windows 10/11</div>
+                        <div class="spec-item"><i class="fa-solid fa-hard-drive"></i> 50MB Free</div>
+                        <div class="spec-item"><i class="fa-solid fa-memory"></i> 2GB RAM</div>
+                    </div>
 
-                <div class="download-steps">
-                    <h4>Hướng dẫn cài đặt:</h4>
-                    <ol>
-                        <li>Nhấn nút "Tải Game" ở trên</li>
-                        <li>Mở file <code>FlappyBird.exe</code> vừa tải</li>
-                        <li>Windows có thể cảnh báo → Chọn "Run anyway"</li>
-                        <li>Chơi game và đua top!</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- How to Play Section -->
-    <section class="how-to-play">
-        <div class="container">
-            <h2 class="section-title">📖 Cách Chơi</h2>
-            <div class="gameplay-grid">
-                <div class="gameplay-card">
-                    <h3>🎯 Mục Tiêu</h3>
-                    <p>Bay qua các ống nước mà không chạm vào. Càng nhiều ống = càng cao điểm!</p>
-                </div>
-                <div class="gameplay-card">
-                    <h3>🕹️ Điều Khiển</h3>
-                    <p><strong>SPACE</strong> hoặc <strong>Click chuột</strong> để chim bay lên. Thả ra để chim rơi
-                        xuống.</p>
-                </div>
-                <div class="gameplay-card">
-                    <h3>💡 Tips</h3>
-                    <p>Giữ nhịp đều, không nhấn quá nhanh. Tập trung và kiên nhẫn!</p>
+                    <a href="#" class="btn-download-large" id="download-btn">
+                        <div class="icon"><i class="fa-solid fa-download"></i></div>
+                        <div class="text">
+                            <span class="label">Download for Windows</span>
+                            <span class="sub">Version 2.1 • Stable</span>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 Flappy Bird - Đua Top. Made with ❤️ by Bao</p>
-            <p class="footer-links">
-                <a href="#download">Tải Game</a> |
-                <a href="#leaderboard">Bảng Xếp Hạng</a> |
-                <a href="https://github.com/Bao2k5/laptrinhpython" target="_blank">GitHub</a>
-            </p>
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-brand">
+                <h3>Flappy<span class="highlight">Bird</span></h3>
+                <p>Dự án mã nguồn mở được xây dựng với niềm đam mê.</p>
+            </div>
+            <div class="footer-social">
+                <a href="https://github.com/Bao2k5/laptrinhpython" target="_blank"><i
+                        class="fa-brands fa-github"></i></a>
+                <a href="#"><i class="fa-brands fa-discord"></i></a>
+                <a href="#"><i class="fa-brands fa-facebook"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Flappy Bird Desktop. Made by Bao.</p>
         </div>
     </footer>
 
