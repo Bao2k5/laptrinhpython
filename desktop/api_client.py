@@ -22,13 +22,14 @@ class APIClient:
             self.is_online = False
         return self.is_online
     
-    def submit_score(self, username: str, score: int) -> bool:
+    def submit_score(self, username: str, score: int, device_id: str = None) -> bool:
         """
         Gửi điểm lên server
         
         Args:
             username: Tên người chơi
             score: Điểm số
+            device_id: ID thiết bị (optional)
             
         Returns:
             True nếu gửi thành công, False nếu thất bại
@@ -37,9 +38,13 @@ class APIClient:
             return False
         
         try:
+            payload = {"username": username, "score": score}
+            if device_id:
+                payload["device_id"] = device_id
+                
             response = requests.post(
                 f"{self.base_url}/api/score",
-                json={"username": username, "score": score},
+                json=payload,
                 timeout=self.timeout
             )
             return response.status_code == 200

@@ -33,21 +33,39 @@ def check_login(username, password):
     return users_col.find_one({"username": username, "password": password}) is not None
 
 # SCORE
-def save_score(username, score):
+def save_score(username, score, device_id=None):
     if in_browser():
         send_score_to_server(username, score)
         return
 
-    old = scores_col.find_one({"username": username})
-
-    if old:
-        if score > old.get("score", 0):
-            scores_col.update_one(
-                {"username": username},
-                {"$set": {"score": score}}
-            )
+    if device_id:
+        # Identify by device_id
+        old = scores_col.find_one({"device_id": device_id})
+        if old:
+            if score > old.get("score", 0):
+                scores_col.update_one(
+                    {"device_id": device_id},
+                    {"$set": {"score": score, "username": username}}
+                )
+            # Always update username in case user changed it
+            elif old.get("username") != username:
+                scores_col.update_one(
+                    {"device_id": device_id},
+                    {"$set": {"username": username}}
+                )
+        else:
+            scores_col.insert_one({"username": username, "score": score, "device_id": device_id})
     else:
-        scores_col.insert_one({"username": username, "score": score})
+        # Legacy: Identify by username
+        old = scores_col.find_one({"username": username})
+        if old:
+            if score > old.get("score", 0):
+                scores_col.update_one(
+                    {"username": username},
+                    {"$set": {"score": score}}
+                )
+        else:
+            scores_col.insert_one({"username": username, "score": score})
 
 
 def get_top_scores(limit=10):

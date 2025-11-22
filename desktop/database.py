@@ -5,12 +5,28 @@ Desktop game uses API client instead of direct database access
 
 def check_login(username, password):
     """
-    Dummy login function
-    Desktop game should use API client for authentication
+    Check login and auto-create user if not exists
     """
-    # For now, allow any login (offline mode)
-    # In production, this should call API
-    return True if username and password else False
+    if not username or not password:
+        return False
+    
+    try:
+        from api_client import login_user, register_user
+        
+        # Try to login first
+        if login_user(username, password):
+            return True
+        
+        # If login fails, try to register (auto-create account)
+        if register_user(username, password):
+            # After successful registration, login again
+            return login_user(username, password)
+        
+        return False
+    except Exception as e:
+        # Offline mode: allow login without server
+        print(f"Offline mode: {e}")
+        return True
 
 def register_user(username, password):
     """

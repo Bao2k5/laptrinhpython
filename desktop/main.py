@@ -59,8 +59,9 @@ class DesktopGame:
             if pending:
                 print(f"\nSyncing {len(pending)} pending scores...")
                 synced = 0
+                device_id = self.storage.get_device_id()
                 for i, item in enumerate(pending):
-                    if self.api.submit_score(item["username"], item["score"]):
+                    if self.api.submit_score(item["username"], item["score"], device_id):
                         self.storage.remove_synced_score(i - synced)
                         synced += 1
                         print(f"  ✓ Synced {item['username']}: {item['score']}")
@@ -102,7 +103,8 @@ class DesktopGame:
         
         # Try to sync online
         if self.api.check_connection():
-            if self.api.submit_score(username, score):
+            device_id = self.storage.get_device_id()
+            if self.api.submit_score(username, score, device_id):
                 print(f"✓ Score synced to server: {score}")
             else:
                 print("⚠ Failed to sync - saving for later")

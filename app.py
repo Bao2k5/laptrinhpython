@@ -67,9 +67,10 @@ def post_score():
     data = request.json
     username = data.get('username')
     score = data.get('score')
+    device_id = data.get('device_id')
     
     if username and score is not None:
-        save_score(username, score)
+        save_score(username, score, device_id)
         return jsonify({"status": "success"}), 200
     return jsonify({"error": "Invalid data"}), 400
 

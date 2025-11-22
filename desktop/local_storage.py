@@ -1,6 +1,7 @@
 import json
 import os
 import base64
+import uuid
 from typing import List, Dict, Optional
 from datetime import datetime
 
@@ -103,6 +104,29 @@ class LocalStorage:
             "coins": self.get_coins(),
             "pending_sync": len(self.get_pending_sync())
         }
+    
+    def get_device_id(self) -> str:
+        """Get or generate unique device ID based on MAC address"""
+        if "device_id" not in self.data:
+            # Generate device ID from MAC address
+            mac = uuid.getnode()
+            device_id = f"{mac:012x}"  # Convert to hex string
+            self.data["device_id"] = device_id
+            self.save()
+        return self.data["device_id"]
+    
+    def get_short_id(self) -> str:
+        """Get short 4-character ID for display"""
+        device_id = self.get_device_id()
+        # Take last 4 characters and convert to uppercase
+        return device_id[-4:].upper()
+    
+    def get_display_name(self) -> str:
+        """Get display name with short ID (e.g., 'Bao #A3F2')"""
+        username = self.get_username()
+        short_id = self.get_short_id()
+        return f"{username} #{short_id}"
+
 
     # --- SETTERS ---
     def set_username(self, username: str):

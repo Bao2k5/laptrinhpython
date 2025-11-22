@@ -48,7 +48,14 @@ class MenuScene:
             title = self.font_title.render("FLAPPY BIRD", True, (255, 255, 0))
             self.screen.blit(title, (70, 120))
 
-            player_text = self.font_small.render(f"Player: {self.player_name}", True, (255, 255, 255))
+            # Display player name with ID
+            try:
+                from local_storage import LocalStorage
+                storage = LocalStorage()
+                display_name = storage.get_display_name()
+                player_text = self.font_small.render(f"Player: {display_name}", True, (255, 255, 255))
+            except:
+                player_text = self.font_small.render(f"Player: {self.player_name}", True, (255, 255, 255))
             self.screen.blit(player_text, (10, 10))
 
             # Play
