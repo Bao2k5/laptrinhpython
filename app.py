@@ -13,11 +13,6 @@ def index():
     # Serve the main HTML file from the build/web directory
     return send_from_directory(app.static_folder, 'index.html')
 
-@app.route('/<path:path>')
-def serve_static(path):
-    # Serve other static files (apk, js, etc.)
-    return send_from_directory(app.static_folder, path)
-
 @app.route('/debug/check-files')
 def debug_check_files():
     """Debug endpoint to check if build files exist"""
@@ -88,6 +83,16 @@ def register():
     if create_user(username, password):
         return jsonify({"status": "success"}), 200
     return jsonify({"error": "User already exists"}), 400
+
+# Catch-all route for static files - MUST be last to not interfere with API routes
+@app.route('/<path:path>')
+def serve_static(path):
+    try:
+        return send_from_directory(app.static_folder, path)
+    except:
+        # If file not found, return 404
+        return "File not found", 404
+
 
 if __name__ == '__main__':
     app.run(debug=True)
