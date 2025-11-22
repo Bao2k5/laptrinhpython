@@ -141,7 +141,7 @@ class DesktopGame:
                     self.goto(next_scene, **data)
                 
                 elif self.current_scene == "scores":
-                    next_scene, data = await ScoresScene(self.screen, player).run()
+                    next_scene, data = await ScoresScene(self.screen, player, api=self.api, storage=self.storage).run()
                     self.goto(next_scene, **data)
                 
                 elif self.current_scene == "shop":
