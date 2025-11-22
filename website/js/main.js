@@ -133,3 +133,29 @@ function initParallax() {
         }
     });
 }
+
+// --- MOUSE RIPPLE EFFECT ---
+let lastRippleTime = 0;
+const rippleDelay = 50; // milliseconds between ripples
+
+document.addEventListener('mousemove', (e) => {
+    const now = Date.now();
+    if (now - lastRippleTime < rippleDelay) return;
+    lastRippleTime = now;
+    
+    createRipple(e.clientX, e.clientY);
+});
+
+function createRipple(x, y) {
+    const ripple = document.createElement('div');
+    ripple.className = 'ripple';
+    ripple.style.left = (x - 50) + 'px';
+    ripple.style.top = (y - 50) + 'px';
+    
+    document.body.appendChild(ripple);
+    
+    // Remove ripple after animation
+    setTimeout(() => {
+        ripple.remove();
+    }, 1000);
+}

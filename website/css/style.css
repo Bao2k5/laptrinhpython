@@ -788,3 +788,26 @@ footer {
 .feature-card:nth-child(4) {
     animation-delay: 0.4s;
 }
+
+/* --- MOUSE RIPPLE EFFECT --- */
+.ripple {
+    position: fixed;
+    border-radius: 50%;
+    border: 2px solid rgba(16, 185, 129, 0.5);
+    pointer-events: none;
+    animation: ripple-animation 1s ease-out forwards;
+    z-index: 9999;
+}
+
+@keyframes ripple-animation {
+    0% {
+        width: 0;
+        height: 0;
+        opacity: 1;
+    }
+    100% {
+        width: 100px;
+        height: 100px;
+        opacity: 0;
+    }
+}
