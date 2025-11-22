@@ -4,6 +4,8 @@ import asyncio
 from database import check_login
 from game_utils import in_browser
 
+WIDTH, HEIGHT = 500, 600
+
 class LoginScene:
     def __init__(self, screen):
         self.screen = screen
@@ -21,10 +23,10 @@ class LoginScene:
 
         while True:
             await asyncio.sleep(0)
-            self.screen.fill((30, 30, 40)) # Slightly lighter background
+            self.screen.fill((30, 30, 40))  # Slightly lighter background
 
             # Title
-            title = self.font.render("LOGIN", True, (255, 215, 0)) # Gold color
+            title = self.font.render("LOGIN", True, (255, 215, 0))  # Gold color
             self.screen.blit(title, (200, 60))
 
             # Cursor logic
@@ -41,7 +43,8 @@ class LoginScene:
             pygame.draw.rect(self.screen, user_color, (120, 170, 260, 40))
             pygame.draw.rect(self.screen, user_border, (120, 170, 260, 40), 2)
             
-            user_txt = username + ("|" if active == "user" and show_cursor else "")
+            # Horizontal cursor (underscore)
+            user_txt = username + ("_" if active == "user" and show_cursor else "")
             txt_surf = self.font.render(user_txt, True, (255, 255, 255))
             self.screen.blit(txt_surf, (130, 178))
 
@@ -55,7 +58,8 @@ class LoginScene:
             pygame.draw.rect(self.screen, pass_color, (120, 260, 260, 40))
             pygame.draw.rect(self.screen, pass_border, (120, 260, 260, 40), 2)
 
-            pass_hidden = "*" * len(password) + ("|" if active == "pass" and show_cursor else "")
+            # Horizontal cursor (underscore)
+            pass_hidden = "*" * len(password) + ("_" if active == "pass" and show_cursor else "")
             txt_surf = self.font.render(pass_hidden, True, (255, 255, 255))
             self.screen.blit(txt_surf, (130, 268))
 
@@ -112,7 +116,7 @@ class LoginScene:
                         return "register", {}
 
                 if e.type == pygame.KEYDOWN:
-                    error_msg = "" # Clear error on typing
+                    error_msg = ""  # Clear error on typing
                     if e.key == pygame.K_TAB:
                         active = "pass" if active == "user" else "user"
 
