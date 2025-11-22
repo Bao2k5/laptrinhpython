@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: laptrinthpython-api
+    name: flappybird-duatop
     env: python
     branch: branch-PY
     buildCommand: pip install -r requirements.txt

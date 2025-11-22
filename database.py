@@ -4,7 +4,7 @@ from utils import in_browser, web_login, web_register, send_score_to_server
 # Conditional import for PyMongo (Server-side only)
 if not in_browser():
     from pymongo import MongoClient
-    MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017/")
+    MONGO_URI = os.getenv("MONGO_URI", "mongodb+srv://Bao:250905@cluster0.ifm5fiy.mongodb.net/flappybird?appName=Cluster0")
     client = MongoClient(MONGO_URI)
     db = client["flappy_game"]
     users_col = db["users"]
