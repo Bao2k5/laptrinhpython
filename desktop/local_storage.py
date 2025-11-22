@@ -1,6 +1,7 @@
 import json
 import os
-from typing import List, Dict
+import base64
+from typing import List, Dict, Optional
 from datetime import datetime
 
 class LocalStorage:
@@ -16,6 +17,7 @@ class LocalStorage:
             "current_skin": "yellow",
             "inventory": ["yellow"],
             "pending_sync": [],
+            "saved_accounts": [],
             "settings": {
                 "sound": True,
                 "music": True
@@ -125,3 +127,57 @@ class LocalStorage:
         if 0 <= index < len(self.data["pending_sync"]):
             self.data["pending_sync"].pop(index)
             self.save()
+    
+    # --- CREDENTIAL MANAGEMENT ---
+    def _encode_password(self, password: str) -> str:
+        """Encode password using base64"""
+        return base64.b64encode(password.encode()).decode()
+    
+    def _decode_password(self, encoded: str) -> str:
+        """Decode password from base64"""
+        try:
+            return base64.b64decode(encoded.encode()).decode()
+        except:
+            return ""
+    
+    def save_credentials(self, username: str, password: str):
+        """Save login credentials (password is base64 encoded)"""
+        saved_accounts = self.data.get("saved_accounts", [])
+        
+        # Check if account already exists
+        for account in saved_accounts:
+            if account["username"] == username:
+                # Update password
+                account["password_encoded"] = self._encode_password(password)
+                self.save()
+                return
+        
+        # Add new account
+        saved_accounts.append({
+            "username": username,
+            "password_encoded": self._encode_password(password)
+        })
+        self.data["saved_accounts"] = saved_accounts
+        self.save()
+    
+    def get_saved_accounts(self) -> List[str]:
+        """Get list of saved usernames"""
+        saved_accounts = self.data.get("saved_accounts", [])
+        return [acc["username"] for acc in saved_accounts]
+    
+    def get_credentials(self, username: str) -> Optional[Dict[str, str]]:
+        """Get credentials for a saved account"""
+        saved_accounts = self.data.get("saved_accounts", [])
+        for account in saved_accounts:
+            if account["username"] == username:
+                return {
+                    "username": username,
+                    "password": self._decode_password(account["password_encoded"])
+                }
+        return None
+    
+    def remove_credentials(self, username: str):
+        """Remove saved credentials for an account"""
+        saved_accounts = self.data.get("saved_accounts", [])
+        self.data["saved_accounts"] = [acc for acc in saved_accounts if acc["username"] != username]
+        self.save()
