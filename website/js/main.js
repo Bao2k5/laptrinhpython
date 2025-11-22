@@ -5,6 +5,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Auto refresh leaderboard every 30s
     setInterval(fetchLeaderboard, 30000);
+
+    // Initialize parallax effect
+    initParallax();
 });
 
 // --- API FUNCTIONS ---
@@ -103,4 +106,30 @@ function animateValue(id, start, end, duration) {
 
     timer = setInterval(run, stepTime);
     run();
+}
+
+// --- PARALLAX EFFECT ---
+function initParallax() {
+    const stars = document.querySelectorAll('.star');
+    const bird = document.querySelector('.bird-float');
+
+    document.addEventListener('mousemove', (e) => {
+        const mouseX = e.clientX / window.innerWidth;
+        const mouseY = e.clientY / window.innerHeight;
+
+        // Move stars in opposite direction (subtle)
+        stars.forEach((star, index) => {
+            const speed = (index + 1) * 0.5;
+            const x = (mouseX - 0.5) * speed * -20;
+            const y = (mouseY - 0.5) * speed * -20;
+            star.style.transform = `translate(${x}px, ${y}px)`;
+        });
+
+        // Move bird slightly
+        if (bird) {
+            const x = (mouseX - 0.5) * 10;
+            const y = (mouseY - 0.5) * 10;
+            bird.style.transform = `translate(${x}px, ${y}px)`;
+        }
+    });
 }
