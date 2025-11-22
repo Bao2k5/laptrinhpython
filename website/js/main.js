@@ -1,3 +1,22 @@
+document.addEventListener('DOMContentLoaded', () => {
+    // Initial load
+    fetchStats();
+    fetchLeaderboard();
+
+    // Auto refresh leaderboard every 30s
+    setInterval(fetchLeaderboard, 30000);
+
+    // Initialize all effects
+    initParallax();
+    initCursorTrail();
+    initScrollReveal();
+    init3DCardTilt();
+    initButtonRipple();
+});
+
+// --- API FUNCTIONS ---
+const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000/api' : 'https://flappybird-duatop.onrender.com/api';
+
 async function fetchStats() {
     try {
         const response = await fetch(`${API_URL}/stats`);
@@ -6,7 +25,7 @@ async function fetchStats() {
         animateValue("total-players", 0, data.total_players, 2000);
         animateValue("total-games", 0, data.total_games, 2000);
 
-        // Update highest score separately (no animation for now or simple text)
+        // Update highest score separately
         document.getElementById('highest-score').textContent = data.highest_score;
 
     } catch (error) {
@@ -151,9 +170,7 @@ function initCursorTrail() {
     });
 }
 
-// ========================================
-// PREMIUM SCROLL REVEAL ANIMATIONS
-// ========================================
+// --- PREMIUM SCROLL REVEAL ---
 function initScrollReveal() {
     const revealElements = document.querySelectorAll('.feature-card, .leaderboard-wrapper, .download-card');
 
@@ -174,9 +191,7 @@ function initScrollReveal() {
     });
 }
 
-// ========================================
-// 3D CARD TILT EFFECT
-// ========================================
+// --- 3D CARD TILT ---
 function init3DCardTilt() {
     const cards = document.querySelectorAll('.feature-card');
 
@@ -192,7 +207,7 @@ function init3DCardTilt() {
             const rotateX = (y - centerY) / 10;
             const rotateY = (centerX - x) / 10;
 
-            card.style.transform = perspective(1000px) rotateX(c: \Users\Bao\Desktop\LaptrinhPy{ rotateX }deg) rotateY(c: \Users\Bao\Desktop\LaptrinhPy{ rotateY }deg) translateY(-10px);
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
         });
 
         card.addEventListener('mouseleave', () => {
@@ -201,9 +216,7 @@ function init3DCardTilt() {
     });
 }
 
-// ========================================
-// SMOOTH BUTTON RIPPLE EFFECT
-// ========================================
+// --- BUTTON RIPPLE ---
 function initButtonRipple() {
     const buttons = document.querySelectorAll('.btn-primary, .btn-secondary, .btn-download-large');
 
