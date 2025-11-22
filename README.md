@@ -15,7 +15,7 @@ Phiên bản Desktop của tựa game huyền thoại Flappy Bird, được vi�
 
 ## 📥 Tải Game
 
-**[DOWNLOAD FOR WINDOWS (Google Drive)](https://drive.google.com/file/d/1WEDJoyox8n9o6JEmambbQb73rzd85UxX/view?usp=sharing)**
+**[DOWNLOAD FOR WINDOWS (Direct Link)](https://drive.google.com/uc?export=download&id=1WEDJoyox8n9o6JEmambbQb73rzd85UxX)**
 
 ## 🎮 Cách Chơi
 
