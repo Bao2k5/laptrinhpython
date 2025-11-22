@@ -1,21 +1,3 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Initial load
-    fetchStats();
-    fetchLeaderboard();
-
-    // Auto refresh leaderboard every 30s
-    setInterval(fetchLeaderboard, 30000);
-
-    // Initialize parallax effect
-    initParallax();
-
-    // Initialize cursor trail
-    initCursorTrail();
-});
-
-// --- API FUNCTIONS ---
-const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000/api' : 'https://flappybird-duatop.onrender.com/api';
-
 async function fetchStats() {
     try {
         const response = await fetch(`${API_URL}/stats`);
@@ -174,7 +156,7 @@ function initCursorTrail() {
 // ========================================
 function initScrollReveal() {
     const revealElements = document.querySelectorAll('.feature-card, .leaderboard-wrapper, .download-card');
-    
+
     const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -185,7 +167,7 @@ function initScrollReveal() {
         threshold: 0.1,
         rootMargin: '0px 0px -100px 0px'
     });
-    
+
     revealElements.forEach(el => {
         el.classList.add('scroll-reveal');
         revealObserver.observe(el);
@@ -197,22 +179,22 @@ function initScrollReveal() {
 // ========================================
 function init3DCardTilt() {
     const cards = document.querySelectorAll('.feature-card');
-    
+
     cards.forEach(card => {
         card.addEventListener('mousemove', (e) => {
             const rect = card.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
-            
+
             const centerX = rect.width / 2;
             const centerY = rect.height / 2;
-            
+
             const rotateX = (y - centerY) / 10;
             const rotateY = (centerX - x) / 10;
-            
-            card.style.transform = perspective(1000px) rotateX(c:\Users\Bao\Desktop\LaptrinhPy{rotateX}deg) rotateY(c:\Users\Bao\Desktop\LaptrinhPy{rotateY}deg) translateY(-10px);
+
+            card.style.transform = perspective(1000px) rotateX(c: \Users\Bao\Desktop\LaptrinhPy{ rotateX }deg) rotateY(c: \Users\Bao\Desktop\LaptrinhPy{ rotateY }deg) translateY(-10px);
         });
-        
+
         card.addEventListener('mouseleave', () => {
             card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
         });
@@ -224,30 +206,23 @@ function init3DCardTilt() {
 // ========================================
 function initButtonRipple() {
     const buttons = document.querySelectorAll('.btn-primary, .btn-secondary, .btn-download-large');
-    
+
     buttons.forEach(button => {
-        button.addEventListener('click', function(e) {
+        button.addEventListener('click', function (e) {
             const ripple = document.createElement('span');
             const rect = this.getBoundingClientRect();
             const size = Math.max(rect.width, rect.height);
             const x = e.clientX - rect.left - size / 2;
             const y = e.clientY - rect.top - size / 2;
-            
+
             ripple.style.width = ripple.style.height = size + 'px';
             ripple.style.left = x + 'px';
             ripple.style.top = y + 'px';
             ripple.classList.add('ripple-effect');
-            
+
             this.appendChild(ripple);
-            
+
             setTimeout(() => ripple.remove(), 600);
         });
     });
 }
-
-// Initialize all premium effects
-document.addEventListener('DOMContentLoaded', () => {
-    initScrollReveal();
-    init3DCardTilt();
-    initButtonRipple();
-});
