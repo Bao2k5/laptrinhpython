@@ -9,19 +9,6 @@ Phiên bản Desktop của tựa game huyền thoại Flappy Bird, được vi�
 ## ✨ Tính Năng Mới (v2.1)
 
 - **🔐 Auto-Login**: Tự động lưu tài khoản, đăng nhập nhanh với một cú click.
-- **🎨 Website Redesign**: Giao diện trang chủ mới cực "cháy" với Dark Mode & Neon style.
-- **💾 Google Drive Download**: Link tải tốc độ cao, không quảng cáo.
-- **🛒 Shop System**: Cày coin mua skin chim mới (Yellow, Blue, Red).
-
-## 📥 Tải Game
-
-**[DOWNLOAD FOR WINDOWS (Direct Link)](https://drive.google.com/uc?export=download&id=1uWFELpS6grVWp4AgmrQB5NL2iaAdSeBV)**
-
-## 🎮 Cách Chơi
-
-1. **Tải game** về máy.
-2. Giải nén file `.zip`.
-3. Chạy file `FlappyBird.exe`.
 4. Đăng ký/Đăng nhập tài khoản.
 5. Nhấn **SPACE** hoặc **Click chuột** để bay.
 6. Cày điểm đua top server!
