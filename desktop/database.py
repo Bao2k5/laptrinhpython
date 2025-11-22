@@ -25,3 +25,16 @@ def create_user(username, password):
     Alias for register_user
     """
     return register_user(username, password)
+
+def save_score(username, score):
+    """
+    Dummy save_score function
+    Desktop game handles score saving in main.py via LocalStorage
+    """
+    return True
+
+def get_best_score(username):
+    """
+    Dummy get_best_score function
+    """
+    return 0

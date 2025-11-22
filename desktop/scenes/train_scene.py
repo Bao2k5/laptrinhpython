@@ -1,7 +1,7 @@
 import pygame
 import sys
 from flappy import train_ai  # dùng lại train_ai bạn đã viết
-from utils import in_browser
+from game_utils import in_browser
 
 
 class TrainScene:

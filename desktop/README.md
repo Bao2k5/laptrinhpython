@@ -1,79 +1,91 @@
-# Hướng Dẫn Sử Dụng Desktop Game
+# Flappy Bird - Desktop Edition v2.0
+## Economy & Shop Update
 
-## Cài Đặt
+### Features
+- **Classic Gameplay**: Smooth Flappy Bird mechanics with pixel-perfect collision
+- **Shop System**: Buy and equip different bird skins using collected coins
+- **Coin Collection**: Gather coins during gameplay to unlock new birds
+- **Bird Abilities**: Each bird has unique characteristics
+  - **Yellow (Classic)**: Balanced gravity and jump force
+  - **Blue (Azure)**: Floaty physics - easier to control (50 coins)
+  - **Red (Crimson)**: Heavy physics but 2x score multiplier (100 coins)
+- **Local Storage**: All progress saved locally (coins, owned skins, high scores)
+- **Online Sync**: Scores sync to server when internet is available
+- **Visual Enhancements**:
+  - Random day/night backgrounds
+  - Random pipe colors (green/red)
+  - Smooth bird animations (3-frame flapping)
+  - Parallax scrolling ground
+  - Bird rotation based on velocity
 
-### 1. Cài đặt thư viện
-\`\`\`bash
-cd desktop
-pip install -r requirements.txt
-\`\`\`
+### Installation & Running
 
-### 2. Chạy game
-\`\`\`bash
-python main.py
-\`\`\`
+1. **Install Dependencies**:
+   ```bash
+   pip install pygame
+   ```
 
-## Tính Năng
+2. **Run the Game**:
+   ```bash
+   cd desktop
+   python main.py
+   ```
 
-### ✅ Chơi Offline
-- Game chạy hoàn toàn offline
-- Điểm được lưu local
-- Không cần internet để chơi
+### Controls
+- **SPACE** or **UP ARROW**: Flap/Jump
+- **ESC**: Back to menu (from most screens)
+- **LEFT/RIGHT ARROWS**: Navigate shop
+- **ENTER/SPACE**: Buy/Select skin in shop
 
-### ✅ Sync Điểm Online
-- Khi có internet, điểm tự động sync lên server
-- Xem bảng xếp hạng toàn cầu
-- Điểm chờ sync sẽ được gửi khi có kết nối
+### Game Modes
+- **PLAY**: Standard gameplay - collect coins and dodge pipes
+- **SHOP**: Purchase and equip bird skins
+- **SCORES**: View online leaderboard (when connected)
+- **TRAIN**: AI training mode (experimental)
 
-### ✅ Thống Kê
-- High score cá nhân
-- Tổng số game đã chơi
-- Số điểm chờ sync
-
-## Build File .exe
-
-### 1. Cài PyInstaller
-\`\`\`bash
-pip install pyinstaller
-\`\`\`
-
-### 2. Build
-\`\`\`bash
-python build_exe.py
-\`\`\`
-
-### 3. Chạy .exe
-File .exe sẽ được tạo tại: \`dist/FlappyBird.exe\`
-
-Bạn có thể copy file này sang máy khác và chạy mà không cần cài Python!
-
-## Cấu Trúc File
-
-\`\`\`
+### File Structure
+```
 desktop/
-├── main.py              # Entry point
-├── api_client.py        # Kết nối API server
-├── local_storage.py     # Lưu trữ local
-├── game_logic.py        # Game logic gốc
-├── build_exe.py         # Script build .exe
-├── requirements.txt     # Dependencies
-├── scenes/              # Game scenes
-└── assets/              # Game assets
-\`\`\`
+  ├── main.py              # Entry point
+  ├── game_utils.py        # Utility functions
+  ├── local_storage.py     # Data persistence
+  ├── api_client.py        # Server communication
+  ├── scenes/
+  │   ├── login_scene.py
+  │   ├── menu_scene.py
+  │   ├── play_scene.py    # Main gameplay
+  │   ├── shop_scene.py    # Shop interface (NEW)
+  │   ├── gameover_scene.py
+  │   └── scores_scene.py
+  └── assets/
+      ├── bird sprites (yellow, blue, red)
+      ├── backgrounds (day, night)
+      ├── pipes (green, red)
+      ├── sounds (flap, hit)
+      └── UI elements
+```
 
-## Troubleshooting
+### Testing
+Run automated tests:
+```bash
+python check_assets.py  # Verify all assets present
+```
 
-### Game không kết nối được server
-- Kiểm tra internet
-- Kiểm tra URL server trong api_client.py
-- Game vẫn chạy được offline
+### Version History
+- **v2.0** (Economy & Shop Update)
+  - Added coin collection mechanic
+  - New shop system with 3 bird skins
+  - Unique bird abilities
+  - Enhanced visual effects
+- **v1.0** (Initial Release)
+  - Basic Flappy Bird gameplay
+  - Online leaderboard
+  - Offline score storage
 
-### Build .exe lỗi
-- Đảm bảo đã cài PyInstaller
-- Kiểm tra có file main.py
-- Chạy lại: \`python build_exe.py\`
+### Credits
+- Original Flappy Bird by Dong Nguyen
+- Sprites from https://github.com/samuelcust/flappy-bird-assets
+- Built with Pygame
 
-### Điểm không sync
-- Kiểm tra internet
-- Điểm sẽ được lưu local và sync sau
-- Xem pending sync trong stats
+### License
+Educational project - Not for commercial use

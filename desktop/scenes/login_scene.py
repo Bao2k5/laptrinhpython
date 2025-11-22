@@ -2,7 +2,7 @@ import pygame
 import sys
 import asyncio
 from database import check_login
-from utils import in_browser
+from game_utils import in_browser
 
 class LoginScene:
     def __init__(self, screen):

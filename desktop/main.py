@@ -17,6 +17,7 @@ from scenes.play_scene import PlayScene
 from scenes.scores_scene import ScoresScene
 from scenes.gameover_scene import GameOverScene
 from scenes.train_scene import TrainScene
+from scenes.shop_scene import ShopScene
 
 
 class DesktopGame:
@@ -107,7 +108,6 @@ class DesktopGame:
                 print("⚠ Failed to sync - saving for later")
                 self.storage.add_pending_sync(username, score)
         else:
-            # Offline - save for later sync
             print(f"⚠ Offline - Score saved locally: {score}")
             self.storage.add_pending_sync(username, score)
     
@@ -130,7 +130,9 @@ class DesktopGame:
                     self.goto(next_scene, **data)
                 
                 elif self.current_scene == "play":
-                    next_scene, data = await PlayScene(self.screen, player).run()
+                    # Truyền API và Storage vào PlayScene
+                    scene = PlayScene(self.screen, player, api=self.api, storage=self.storage)
+                    next_scene, data = await scene.run()
                     
                     # If game over, handle score
                     if next_scene == "gameover" and "score" in data:
@@ -140,6 +142,10 @@ class DesktopGame:
                 
                 elif self.current_scene == "scores":
                     next_scene, data = await ScoresScene(self.screen, player).run()
+                    self.goto(next_scene, **data)
+                
+                elif self.current_scene == "shop":
+                    next_scene, data = await ShopScene(self.screen, player, api=self.api, storage=self.storage).run()
                     self.goto(next_scene, **data)
                 
                 elif self.current_scene == "gameover":

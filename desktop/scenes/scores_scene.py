@@ -2,7 +2,7 @@ import pygame
 import sys
 import asyncio
 import json
-from utils import in_browser, asset_path
+from game_utils import in_browser, asset_path
 
 WIDTH, HEIGHT = 500, 600
 

@@ -1,7 +1,7 @@
 import pygame
 import sys
 import asyncio
-from utils import in_browser, asset_path
+from game_utils import in_browser, asset_path
 
 class RegisterScene:
     def __init__(self, screen):

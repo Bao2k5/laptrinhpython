@@ -1,7 +1,7 @@
 import pygame
 import sys
 import asyncio
-from utils import asset_path, in_browser
+from game_utils import asset_path, in_browser
 
 WIDTH, HEIGHT = 500, 600
 
