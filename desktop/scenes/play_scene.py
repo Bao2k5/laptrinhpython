@@ -211,11 +211,19 @@ class PlayScene:
                         
                         # Game Over
                         print(f"Game Over! Score: {score}")
+                        
+                        # Update stats
+                        if self.storage:
+                            self.storage.increment_games()
+                            self.storage.update_high_score(score)
+                            self.storage.add_coins(coins_collected)
+                        
+                        # Try to save score online
                         saved = False
                         if self.api:
                             saved = self.api.submit_score(self.player_name, score)
                         if not saved and self.storage:
-                            self.storage.save_pending_score(self.player_name, score)
+                            self.storage.add_pending_sync(self.player_name, score)
 
                         return "gameover", {
                             "player": self.player_name,
