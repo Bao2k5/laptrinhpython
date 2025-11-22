@@ -37,6 +37,22 @@ def debug_check_files():
         result["error"] = str(e)
     return jsonify(result)
 
+@app.route('/api/stats', methods=['GET'])
+def get_stats():
+    try:
+        from database import scores_col
+        total_players = scores_col.count_documents({}) if scores_col else 0
+        total_games = total_players
+        highest_doc = scores_col.find_one(sort=[('score', -1)]) if scores_col else None
+        highest_score = highest_doc.get('score', 0) if highest_doc else 0
+    except Exception:
+        total_players = total_games = highest_score = 0
+    return jsonify({
+        'total_players': total_players,
+        'total_games': total_games,
+        'highest_score': highest_score
+    })
+
 @app.route('/api/scores', methods=['GET'])
 def get_scores():
     scores = get_top_scores()
