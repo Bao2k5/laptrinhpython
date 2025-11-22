@@ -3,6 +3,7 @@ import sys
 import asyncio
 from database import check_login
 from game_utils import in_browser
+from local_storage import LocalStorage
 
 WIDTH, HEIGHT = 500, 600
 
@@ -13,9 +14,14 @@ class LoginScene:
         self.input_user = ""
         self.input_pass = ""
         self.is_password = True
+        
+        # Load saved username from LocalStorage
+        self.storage = LocalStorage()
+        self.saved_username = self.storage.get_username()
 
     async def run(self):
-        username = ""
+        # Pre-fill username if saved
+        username = self.saved_username if self.saved_username != "Guest" else ""
         password = ""
         active = "user"
         cursor_timer = 0
