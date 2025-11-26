@@ -1,7 +1,6 @@
 
 import pygame
 import sys
-import asyncio
 from utils import asset_path
 
 
@@ -35,27 +34,19 @@ class MenuScene:
         self.btn_quit = pygame.transform.scale(self.btn_quit, (self.btn_w, self.btn_h))
         self.btn_quit_hover = pygame.transform.scale(self.btn_quit_hover, (self.btn_w, self.btn_h))
 
-    async def run(self):
+    def run(self):
         play_rect = pygame.Rect(150, 260, self.btn_w, self.btn_h)
         scores_rect = pygame.Rect(150, 330, self.btn_w, self.btn_h)
         quit_rect = pygame.Rect(150, 400, self.btn_w, self.btn_h)
 
         while True:
-            await asyncio.sleep(0)
             self.screen.blit(self.bg, (0, 0))
             mx, my = pygame.mouse.get_pos()
 
             title = self.font_title.render("FLAPPY BIRD", True, (255, 255, 0))
             self.screen.blit(title, (70, 120))
 
-            # Display player name with ID
-            try:
-                from local_storage import LocalStorage
-                storage = LocalStorage()
-                display_name = storage.get_display_name()
-                player_text = self.font_small.render(f"Player: {display_name}", True, (255, 255, 255))
-            except:
-                player_text = self.font_small.render(f"Player: {self.player_name}", True, (255, 255, 255))
+            player_text = self.font_small.render(f"Player: {self.player_name}", True, (255, 255, 255))
             self.screen.blit(player_text, (10, 10))
 
             # Play

@@ -15,14 +15,7 @@ def asset_path(*parts):
     """
     if in_browser():
         return "/".join(parts)
-    
-    # Check if running in PyInstaller bundle
-    import sys
-    if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
-        base = sys._MEIPASS
-    else:
-        base = os.path.dirname(os.path.abspath(__file__))
-        
+    base = os.path.dirname(__file__)
     return os.path.join(base, *parts)
 
 
@@ -91,31 +84,5 @@ def send_score_to_server(player_name, score, url=None):
                 pass
 
         return True
-    except Exception:
-        return False
-
-def web_login(username, password):
-    """Login via API (browser only)"""
-    try:
-        from js import XMLHttpRequest, JSON
-        xhr = XMLHttpRequest.new()
-        xhr.open("POST", "/api/login", False) # Synchronous for simplicity in game loop
-        xhr.setRequestHeader("Content-Type", "application/json")
-        data = JSON.stringify({"username": username, "password": password})
-        xhr.send(data)
-        return xhr.status == 200
-    except Exception:
-        return False
-
-def web_register(username, password):
-    """Register via API (browser only)"""
-    try:
-        from js import XMLHttpRequest, JSON
-        xhr = XMLHttpRequest.new()
-        xhr.open("POST", "/api/register", False)
-        xhr.setRequestHeader("Content-Type", "application/json")
-        data = JSON.stringify({"username": username, "password": password})
-        xhr.send(data)
-        return xhr.status == 200
     except Exception:
         return False

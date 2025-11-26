@@ -23,6 +23,8 @@ class ScoresScene:
         high_score = stats.get("high_score", 0)
         total_games = stats.get("total_games", 0)
         coins = stats.get("coins", 0)
+        # Device ID (based on this laptop) for identifying scores on server
+        short_id = self.storage.get_short_id()
         
         # Try to get online leaderboard
         online_scores = []
@@ -43,10 +45,14 @@ class ScoresScene:
             # Local Stats Section
             y = 120
             
-            # Player name
+            # Player name and device short ID (eg: Bao #A3F2)
             player_txt = self.font_medium.render(f"Player: {self.player_name}", True, (100, 200, 255))
             self.screen.blit(player_txt, (50, y))
-            y += 60
+            y += 40
+
+            id_txt = self.font_small.render(f"Device ID: #{short_id}", True, (180, 180, 180))
+            self.screen.blit(id_txt, (50, y))
+            y += 40
             
             # High Score
             score_txt = self.font_small.render(f"High Score: {high_score}", True, (255, 255, 255))
