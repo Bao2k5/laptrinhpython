@@ -3,7 +3,7 @@ import sys
 import os
 import asyncio
 import random
-import numpy as np
+
 from pathlib import Path
 from game_utils import asset_path
 
