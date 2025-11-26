@@ -21,9 +21,7 @@ try:
     print("Successfully imported BirdAI from:", os.path.join(root_dir, 'AI', 'bird_ai.py'))
 except ImportError as e:
     print(f"Error importing BirdAI: {e}")
-    print("Current sys.path:", sys.path)
-    print("Files in AI directory:", os.listdir(os.path.join(root_dir, 'AI')))
-    raise
+    BirdAI = None
 
 # Game constants
 WIDTH = 500

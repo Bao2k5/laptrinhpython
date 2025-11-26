@@ -156,8 +156,24 @@ class DesktopGame:
                     self.goto(next_scene, **data)
                 
                 elif self.current_scene == "train":
-                    next_scene, data = await TrainScene(self.screen).run()
-                    self.goto(next_scene, **data)
+                    # Check if running in frozen mode (build)
+                    if getattr(sys, 'frozen', False):
+                        # Show "Under Development" message
+                        font = pygame.font.SysFont("Arial", 30)
+                        msg = font.render("Tinh nang dang phat trien", True, (255, 255, 255))
+                        rect = msg.get_rect(center=(self.WIDTH//2, self.HEIGHT//2))
+                        
+                        self.screen.fill((0, 0, 0))
+                        self.screen.blit(msg, rect)
+                        pygame.display.flip()
+                        pygame.time.wait(2000) # Wait 2 seconds
+                        
+                        # Return to menu
+                        self.goto("menu")
+                    else:
+                        # Only run training if not frozen (local dev)
+                        next_scene, data = await TrainScene(self.screen).run()
+                        self.goto(next_scene, **data)
                 
                 else:
                     print(f"Unknown scene: {self.current_scene}")
