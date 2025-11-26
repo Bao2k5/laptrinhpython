@@ -4,16 +4,16 @@ import shutil
 
 def package_game():
     # Tên file zip output
-    zip_name = "FlappyBird_v2.4.zip"
+    zip_name = "FlappyBird_v2.5.zip"
     
     # File exe nguồn
-    # Note: build_exe.py creates it in dist/FlappyBird_v2.4.exe
-    exe_path = "dist/FlappyBird_v2.4.exe"
+    # Note: build_exe.py creates it in dist/FlappyBird_v2.5.exe
+    exe_path = "dist/FlappyBird_v2.5.exe"
     
     if not os.path.exists(exe_path):
         # Fallback check in desktop/dist if run from root
-        if os.path.exists("desktop/dist/FlappyBird_v2.4.exe"):
-            exe_path = "desktop/dist/FlappyBird_v2.4.exe"
+        if os.path.exists("desktop/dist/FlappyBird_v2.5.exe"):
+            exe_path = "desktop/dist/FlappyBird_v2.5.exe"
         else:
             print(f"[ERROR] {exe_path} not found! Please build the game first.")
             return
@@ -23,7 +23,7 @@ def package_game():
     with zipfile.ZipFile(zip_name, 'w', zipfile.ZIP_DEFLATED) as zipf:
         # Add exe
         print(f"Adding {exe_path}...")
-        zipf.write(exe_path, "FlappyBird_v2.4.exe")
+        zipf.write(exe_path, "FlappyBird_v2.5.exe")
         
         # Assets are now bundled inside the exe via PyInstaller --add-data
         # So we don't need to distribute the assets folder separately anymore!
