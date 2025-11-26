@@ -15,7 +15,14 @@ def asset_path(*parts):
     """
     if in_browser():
         return "/".join(parts)
-    base = os.path.dirname(__file__)
+    
+    # Check if running in PyInstaller bundle
+    import sys
+    if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
+        base = sys._MEIPASS
+    else:
+        base = os.path.dirname(os.path.abspath(__file__))
+        
     return os.path.join(base, *parts)
 
 

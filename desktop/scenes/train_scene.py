@@ -9,7 +9,7 @@ class TrainScene:
         self.screen = screen
         self.font = pygame.font.Font(None, 50)
 
-    def run(self):
+    async def run(self):
         # Màn hình thông báo
         self.screen.fill((10, 10, 20))
         txt = self.font.render("Đang train AI...", True, (255, 255, 0))

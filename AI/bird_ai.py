@@ -1,5 +1,5 @@
 import numpy as np
-from AI.neural_network import NeuralNetwork
+from .neural_network import NeuralNetwork
 
 BIRD_W = 40
 BIRD_H = 30

@@ -34,15 +34,18 @@ class MenuScene:
         self.btn_quit = pygame.transform.scale(self.btn_quit, (self.btn_w, self.btn_h))
         self.btn_quit_hover = pygame.transform.scale(self.btn_quit_hover, (self.btn_w, self.btn_h))
         
-        self.click_sound = load_sound('assets/flap')
+        self.click_sound = load_sound('assets/flap.wav')
 
     async def run(self):
         WIDTH = self.screen.get_width()
         
-        play_rect = pygame.Rect(WIDTH//2 - 100, 300, 200, 50)
-        shop_rect = pygame.Rect(WIDTH//2 - 100, 370, 200, 50)
-        scores_rect = pygame.Rect(WIDTH//2 - 100, 440, 200, 50)
-        quit_rect = pygame.Rect(WIDTH//2 - 100, 510, 200, 50)
+        # Adjusted Y positions to fit 5 buttons in 600px height
+        # Start higher (250) and use smaller gap (60)
+        play_rect = pygame.Rect(WIDTH//2 - 100, 250, 200, 50)
+        shop_rect = pygame.Rect(WIDTH//2 - 100, 310, 200, 50)
+        scores_rect = pygame.Rect(WIDTH//2 - 100, 370, 200, 50)
+        train_rect = pygame.Rect(WIDTH//2 - 100, 430, 200, 50)
+        quit_rect = pygame.Rect(WIDTH//2 - 100, 490, 200, 50)
 
         while True:
             await asyncio.sleep(0)
@@ -51,8 +54,8 @@ class MenuScene:
 
             title = self.font_title.render("FLAPPY BIRD", True, (255, 255, 0))
             title_shadow = self.font_title.render("FLAPPY BIRD", True, (0, 0, 0))
-            self.screen.blit(title_shadow, (73, 123))
-            self.screen.blit(title, (70, 120))
+            self.screen.blit(title_shadow, (73, 103)) # Moved title up slightly
+            self.screen.blit(title, (70, 100))
 
             player_text = self.font_small.render(f"Player: {self.player_name}", True, (255, 255, 255))
             self.screen.blit(player_text, (10, 10))
@@ -64,28 +67,35 @@ class MenuScene:
             if play_rect.collidepoint(mx, my):
                 pygame.draw.rect(self.screen, (0, 255, 0), play_rect, border_radius=10, width=3)
             play_text = self.font.render("PLAY", True, (255, 255, 255))
-            self.screen.blit(play_text, (WIDTH//2 - play_text.get_width()//2, 315))
+            self.screen.blit(play_text, (WIDTH//2 - play_text.get_width()//2, 265))
 
             # Shop Button
             pygame.draw.rect(self.screen, (255, 165, 0), shop_rect, border_radius=10)
             if shop_rect.collidepoint(mx, my):
                 pygame.draw.rect(self.screen, (255, 200, 0), shop_rect, border_radius=10, width=3)
             shop_text = self.font.render("SHOP", True, (255, 255, 255))
-            self.screen.blit(shop_text, (WIDTH//2 - shop_text.get_width()//2, 385))
+            self.screen.blit(shop_text, (WIDTH//2 - shop_text.get_width()//2, 325))
 
             # Scores Button
             pygame.draw.rect(self.screen, (0, 0, 200), scores_rect, border_radius=10)
             if scores_rect.collidepoint(mx, my):
                 pygame.draw.rect(self.screen, (50, 50, 255), scores_rect, border_radius=10, width=3)
             scores_text = self.font.render("RANK", True, (255, 255, 255))
-            self.screen.blit(scores_text, (WIDTH//2 - scores_text.get_width()//2, 455))
+            self.screen.blit(scores_text, (WIDTH//2 - scores_text.get_width()//2, 385))
+
+            # Train AI Button
+            pygame.draw.rect(self.screen, (128, 0, 128), train_rect, border_radius=10)
+            if train_rect.collidepoint(mx, my):
+                pygame.draw.rect(self.screen, (180, 0, 180), train_rect, border_radius=10, width=3)
+            train_text = self.font.render("TRAIN AI", True, (255, 255, 255))
+            self.screen.blit(train_text, (WIDTH//2 - train_text.get_width()//2, 445))
 
             # Quit Button
             pygame.draw.rect(self.screen, (200, 0, 0), quit_rect, border_radius=10)
             if quit_rect.collidepoint(mx, my):
                 pygame.draw.rect(self.screen, (255, 50, 50), quit_rect, border_radius=10, width=3)
             quit_text = self.font.render("QUIT", True, (255, 255, 255))
-            self.screen.blit(quit_text, (WIDTH//2 - quit_text.get_width()//2, 525))
+            self.screen.blit(quit_text, (WIDTH//2 - quit_text.get_width()//2, 505))
 
             pygame.display.update()
 
@@ -106,6 +116,10 @@ class MenuScene:
                     if scores_rect.collidepoint(e.pos):
                         if self.click_sound: self.click_sound.play()
                         return "scores", {"player": self.player_name}
+
+                    if train_rect.collidepoint(e.pos):
+                        if self.click_sound: self.click_sound.play()
+                        return "train", {"player": self.player_name}
 
                     if quit_rect.collidepoint(e.pos):
                         pygame.quit()

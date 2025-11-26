@@ -30,14 +30,18 @@ def build_exe():
         '--name=FlappyBird_v2.4',
         '--onefile',  # Tạo 1 file .exe duy nhất
         '--windowed',  # Không hiện console window
-        '--add-data=scenes;scenes',  # Thêm scenes folder
+        # '--add-data=scenes;scenes',  # Removed to avoid conflict, PyInstaller finds imports automatically
         '--clean',  # Clean build cache
         '--noconfirm',  # Không hỏi confirm
     ]
     
     # Thêm assets nếu có
     if os.path.exists("assets"):
+        print("Found assets in current directory")
         args.append('--add-data=assets;assets')
+    elif os.path.exists("../assets"):
+        print("Found assets in parent directory")
+        args.append('--add-data=../assets;assets')
     
     # Thêm icon nếu có
     if os.path.exists("assets/icon.ico"):
