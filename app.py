@@ -103,5 +103,28 @@ def get_scores():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@app.route('/api/stats', methods=['GET'])
+def get_stats():
+    """Return statistics for website hero section"""
+    try:
+        scores = load_scores()
+        
+        # Calculate stats
+        total_players = len(scores)
+        highest_score = max([s.get('score', 0) for s in scores]) if scores else 0
+        
+        # For total_games, we'll use total_players as proxy since we don't track individual games
+        # You could add a 'games_played' field to each player entry if needed
+        total_games = total_players  # Simplified - each player = 1 game for now
+        
+        return jsonify({
+            'total_players': total_players,
+            'total_games': total_games,
+            'highest_score': highest_score
+        }), 200
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 if __name__ == '__main__':
     app.run(debug=True)
